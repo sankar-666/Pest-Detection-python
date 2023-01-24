@@ -1,0 +1,34 @@
+<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+      
+<link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" rel="stylesheet"/>
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
+
+
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+<ul class="flashes">
+    {% for message in messages %}
+    <script type="text/javascript">
+        $(document).ready(function() {
+          toastr.options.timeOut = 800;
+          toastr.info('{{message}}');
+        //   $('#linkButton').click(function() {
+        //      toastr.success('Click Button');
+        //   });
+        });
+      </script>
+    <!-- <script type="text/javascript">alert("")</script> -->
+    {% endfor %}
+</ul>
+{% endif %}
+{% endwith %}
+
+
+      
+    
+
+    
+
+</body>
+</html>
