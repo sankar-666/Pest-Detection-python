@@ -24,18 +24,30 @@ def login():
             session['loginid']=res[0]["login_id"]
             utype=res[0]["usertype"]
             if utype == "admin":
+                flash("Login Success")
                 return redirect(url_for("admin.adminhome"))
-            elif utype == "stationmaster":
-                q="select * from stationmaster where login_id='%s'"%(session['loginid'])
+            elif utype == "customer":
+                q="select * from customer where login_id='%s'"%(session['loginid'])
                 val=select(q)
                 if val:
-                    session['stid']=val[0]['smaster_id']
-                    return redirect(url_for("stationmaster.stationmasterhome"))
+                    session['cid']=val[0]['customer_id']
+                    flash("Login Success")
+                    return redirect(url_for("customer.customerhome"))
+            elif utype == "farmer":
+                q="select * from farmer where login_id='%s'"%(session['loginid'])
+                val1=select(q)
+                if val1:
+                    session['fid']=val1[0]['farmer_id']
+                    flash("Login Success")
+                    return redirect(url_for("farmer.farmerhome"))
                
             
             else:
                 flash("failed try again")
                 return redirect(url_for("public.login"))
+        else:
+            flash("Invalid Username or Password!")
+            return redirect(url_for("public.login"))
 
 
     return render_template("login.html")

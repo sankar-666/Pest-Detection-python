@@ -1,6 +1,6 @@
 import mysql.connector
 password=""
-database="e-pest_detection"
+database="pest_detection"
 def select(q):
 	cnx=mysql.connector.connect(user="root",password=password,host="localhost", database=database)
 	cur=cnx.cursor(dictionary=True)

@@ -1,63 +1,74 @@
-{% include 'publicheader.html' %}
-
+{% include 'adminheader.html' %}
 <center>
-    <h1>Customer registration</h1>
+    <div class="img-div">
+    {% if data['raw'] %}
+
+    
+    <h1>Update Pest's</h1>
     <form action="" method="post">
         <table class="table form-group">
             <tr>
-                <th>First name</th>
-                <td><input type="text" class="form-control" required name="fname" id=""></td>
+                <th>pest</th>
+                <td><input type="text" class="form-control"  value="{{ data['raw'][0]['pest'] }}" required name="pest" id=""></td>
             </tr>
             <tr>
-                <th>last name</th>
-                <td><input type="text" class="form-control" required name="lname" id=""></td>
+                <th>details</th> 
+                <td><input type="text" class="form-control" value="{{ data['raw'][0]['details'] }}" required name="details" id=""></td>
             </tr>
             <tr>
-                <th>House name</th>
-                <td><input type="text" class="form-control" required name="hname" id=""></td>
+               
+                <td><input type="submit" class="btn btn-success" name="update" id=""></td>
+            </tr>
+            </table>
+            </form>
+    
+
+    {% else %}
+    
+    <h1>Manage pest's</h1>
+    <form action="" method="post">
+        <table class="table form-group">
+            <tr>
+                <th>pest</th>
+                <td><input type="text" class="form-control" required name="pest" id=""></td>
             </tr>
             <tr>
-                <th>Place</th>
-                <td><input type="text" class="form-control" required name="place" id=""></td>
+                <th>details</th>
+                <td><input type="text" class="form-control" required name="details" id=""></td>
             </tr>
             <tr>
-                <th>Pincode</th>
-                <td><input type="text" class="form-control" required name="pin" max="6" id=""></td>
+               
+                <td><input type="submit" class="btn btn-success" name="btn" id=""></td>
             </tr>
-            <tr>
-                <th>Phone</th>
-                <td><input type="text" class="form-control" required name="phone" max="10" id=""></td>
-            </tr>
-            <tr>
-                <th>Email</th>
-                <td><input type="text" class="form-control" required name="email" id=""></td>
-            </tr>
-            <tr id="eerror">
-              
-                <td align="center" colspan="2"><span style="color: red !important;">Enter Valid Email!</span></td>
-            </tr>
-            <tr>
-                <th>Username</th>
-                <td><input type="text" class="form-control" required name="uname" id=""></td>
-            </tr>
-            <tr>
-                <th>Password</th>
-                <td><input type="text" class="form-control" required  name="passw" id=""></td>
-            </tr>
-            <tr>
-                <td><input type="submit" class="btn btn-primary"  name="btn" id="btn"></td>
-            </tr>
-        </table>
-    </form>
+            </table>
+            </form>
+
+    {% endif %}
+</div>
+    <br><br>
+    {% if data['count'] >= 1 %}
+    <h5>View pest's Details</h5>
+    <table class="table table-striped tbl-new">
+        <tr>
+            <th>index</th>
+            <th>pest</th>
+            <th>Details</th>
+        
+            
+        </tr>
+        {% for row in data['res'] %}
+        <tr>
+            <td>{{ loop.index }}</td>
+            <td>{{ row['pest'] }}</td>
+            <td>{{ row['details'] }}</td>
+           
+            <td><a class="btn btn-info" href="?action=update&pid={{ row['pest_id'] }}">Update</a></td>
+            <td><a class="btn btn-success" onclick="return confirm('Are You Sure!')" href="?action=delete&pid={{ row['pest_id'] }}">Delete</a></td>
+                   </tr>
+        {% endfor %}
+    </table>
+    {% endif %}
 </center>
-
-
-<style>
-    tr,td,th{
-        border: none !important;
-    }
-</style>
-
 
 <script src="
 https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js">
@@ -89,7 +100,6 @@ https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js">
               var re = /([A-Z0-9a-z_-][^@])+?@[^$#<>?]+?\.[\w]{1,}/.test(this.value);
                 if(!re) {
                     $('#eerror').show();
-                    $('#btn').prop('disabled', true);
                 } else {
                     $('#eerror').hide();
                 }
@@ -112,6 +122,5 @@ https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js">
 
 
 </script>
-
 
 {% include 'footer.html' %}
