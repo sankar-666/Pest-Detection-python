@@ -356,3 +356,20 @@ def admin_manage_trainingvideos():
         flash("Deleted Successfully")
         return redirect(url_for("admin.admin_manage_trainingvideos"))
     return render_template('admin_manage_trainingvideos.html',data=data) 
+
+
+@admin.route('/admin_complaints')
+def admin_complaints():
+    data={}
+    q="select * from complaint inner join customer using (customer_id)"
+    res=select(q)
+    data['res']=res
+
+    for i in range(1,len(res)+1):
+        if 'btn'+str(i) in request.form:
+            comp_id=request.form['comp'+str(i)]
+            reply=request.form['reply'+str(i)]
+            q="update complaint set complaint_reply='%s' where complaint_id='%s'"%(reply,comp_id)
+            update(q)
+            return redirect(url_for("admin.admin_complaints"))
+    return render_template('admin_complaints.html',data=data)
