@@ -1,0 +1,39 @@
+{% include 'farmerheader.html' %}
+
+<center>
+    <div class="img-div"></div>
+    <h3>Booking details</h3>
+
+    <table class="table table-striped tbl-new bg-light shadow" style="max-width: 500px;">
+        <tr>
+            <th>Index</th>
+            <th>Username</th>
+            <th>item</th>
+            <th>Image</th>
+            <th>Quantity</th>
+            <th>Total</th>
+     
+
+        </tr>
+        {% for row in data['res'] %}
+        <tr>
+            <td>{{ loop.index }}</td>
+            <td>{{ row['fname'] }}{{ row['lname'] }}</td>
+            <td>{{ row['item'] }}</td>
+            <td><img src="/{{ row['item_image'] }}" width="100" height="100" alt=""></td>
+            <td>{{ row['quantity'] }}</td>
+            <td>{{ row['totalamount'] }}</td>
+            {% if row['order_status'] == 'payment completed' %}
+            <td><a class="btn btn-danger" href="farmer_view_payment?omid={{ row['ordermaster_id'] }}">View Payment details</a></td>
+            <td><a class="btn btn-success" onclick="return confirm('Are you sure, confirm this payment!')" href="?action=confirm&omid={{ row['ordermaster_id'] }}">Confirm Payment</a></td>
+            {% elif row['order_status'] == 'payment confirmed' %}
+            <td><a class="btn btn-success" onclick="return confirm('Are you sure, confirm this payment!')" href="?action=dispatch&omid={{ row['ordermaster_id'] }}">Dispatch Order</a></td>
+            {% else %}
+            <td>{{ row['order_status'] }}</td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+    </table>
+</center>
+
+{% include 'footer.html' %}

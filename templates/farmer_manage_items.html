@@ -1,0 +1,156 @@
+{% include 'farmerheader.html' %}
+<center>
+    <div class="img-div">
+    {% if data['raw'] %}
+
+    
+    <h1>Update Items</h1>
+    <form action="" method="post" enctype="multipart/form-data">
+        <table class="table form-group">
+            <tr>
+                <th>Item</th>
+                <td><input type="text" class="form-control" value="{{ data['raw'][0]['item'] }}" required name="item" id=""></td>
+            </tr>
+            <tr>
+                <th>Image</th>
+                <td><img src="/{{ data['raw'][0]['item_image'] }}" width="60" height="60" alt=""></td>
+            </tr>
+            <tr>
+                <th></th>
+                <td><input type="file" class="form-control"  name="image" id=""></td>
+            </tr>
+            <tr>
+                <th>Stock</th>
+                <td><input type="number" class="form-control" value="{{ data['raw'][0]['stock'] }}" required name="stock" id=""></td>
+            </tr>
+            <tr>
+                <th>Meassuring unit</th>
+                <td><input type="text" class="form-control" value="{{ data['raw'][0]['meassuring_unit'] }}" required name="munit" id=""></td>
+            </tr>
+            <tr>
+                <th>Cost/per Unit</th>
+                <td><input type="number" class="form-control" value="{{ data['raw'][0]['costper_unit'] }}" required name="cpunit" id=""></td>
+            </tr>
+            <tr>
+                <td><input type="submit" class="btn btn-success" name="update" id=""></td>
+            </tr>
+            </table>
+            </form>
+    
+
+    {% else %}
+    
+    <h1>Manage Items</h1>
+    <form action="" method="post" enctype="multipart/form-data">
+        <table class="table form-group">
+            <tr>
+                <th>Item</th>
+                <td><input type="text" class="form-control" required name="item" id=""></td>
+            </tr>
+            <tr>
+                <th>Image</th>
+                <td><input type="file" class="form-control" required name="image" id=""></td>
+            </tr>
+            <tr>
+                <th>Stock</th>
+                <td><input type="number" class="form-control" required name="stock" id=""></td>
+            </tr>
+            <tr>
+                <th>Meassuring unit</th>
+                <td><input type="text" class="form-control" required name="munit" id=""></td>
+            </tr>
+            <tr>
+                <th>Cost/per Unit</th>
+                <td><input type="number" class="form-control" required name="cpunit" id=""></td>
+            </tr>
+            <tr>
+                <td><input type="submit" class="btn btn-success" name="btn" id=""></td>
+            </tr>
+            </table>
+            </form>
+
+    {% endif %}
+</div>
+    <br><br>
+    {% if data['count'] >= 1 %}
+    <h5>View Crops</h5>
+    <table class="table table-striped tbl-new">
+        <tr>
+            <th></th>
+            <th>Name</th>
+            <th>Stock</th>
+            <th>Meassuring Unit</th>
+            <th>Cost/per Unit</th>
+        
+            
+        </tr>
+        {% for row in data['res'] %}
+        <tr>
+            <td><img src="/{{ row['item_image'] }}" width="100" height="100" alt=""></td>
+            <td>{{ row['item'] }}</td>
+            <td>{{ row['stock'] }}</td>
+            <td>{{ row['meassuring_unit'] }}</td>
+            <td>{{ row['costper_unit'] }}</td>
+           
+            <td><a class="btn btn-info" href="?action=update&iid={{ row['item_id'] }}&ftid={{ data['ftid'] }}">Update</a></td>
+            <td><a class="btn btn-success" onclick="return confirm('Are You Sure!')" href="?action=delete&iid={{ row['item_id'] }}&ftid={{ data['ftid'] }}">Delete</a></td>
+                   </tr>
+        {% endfor %}
+    </table>
+    {% endif %}
+</center>
+
+<script src="
+https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js">
+    </script>
+<script>
+    $(function() {
+        $("input[name='fname']").on('input', function(e) {
+            $(this).val($(this).val().replace(/[^A-Za-z ]/g, ''));
+
+        });
+        $("input[name='lname']").on('input', function(e) {
+            $(this).val($(this).val().replace(/[^A-Za-z ]/g, ''));
+
+        });
+        // $("input[name='dob']").on('input', function(e) {
+        //     $(this).val($(this).val().replace(/[^0-9/]/g, ''));
+
+        // });
+        
+        $("input[name='phone']").on('input', function(e) {
+        	$(this).val($(this).val().replace(/[^0-9]/g, ''));
+            
+        });
+        $("input[name='pin']").on('input', function(e) {
+        	$(this).val($(this).val().replace(/[^0-9]/g, ''));
+            
+        });
+        $("input[name='email']").on('input', function(e) {
+              var re = /([A-Z0-9a-z_-][^@])+?@[^$#<>?]+?\.[\w]{1,}/.test(this.value);
+                if(!re) {
+                    $('#eerror').show();
+                } else {
+                    $('#eerror').hide();
+                }
+
+        });
+        $("input[name='address']").on('input', function(e) {
+            $(this).val($(this).val().replace(/[^A-Za-z0-9()/. ]/g, ''));
+
+        });
+        $("input[name='place']").on('input', function(e) {
+            $(this).val($(this).val().replace(/[^A-Za-z ]/g, ''));
+
+        });
+            
+        $("input[name='pwd']").on('input', function(e) {
+        	$(this).val($(this).val().replace(/[^0-9A-Za-z@/. ]/g, ''));
+            
+        });
+    });
+
+
+</script>
+
+{% include 'footer.html' %}

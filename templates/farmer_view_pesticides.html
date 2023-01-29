@@ -1,0 +1,28 @@
+{% include 'farmerheader.html' %}
+
+<center>
+    <div class="img-div"></div>
+    <h3>Best Pesticdes for  <span style="margin: 0px 5px;color: red;text-transform: uppercase;">{{ pest }}</span></h3>
+
+    <table class="table table-striped tbl-new bg-light shadow" style="max-width: 500px;">
+        <tr>
+            <th>Index</th>
+            <th>Pesticide</th>
+            
+     
+
+        </tr>
+        {% for row in data['res'] %}
+        <tr>
+            <td>{{ loop.index }}</td>
+            <td>{{ row['pesticide'] }}</td>
+            
+  
+
+
+        </tr>
+        {% endfor %}
+    </table>
+</center>
+
+{% include 'footer.html' %}

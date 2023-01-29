@@ -1,0 +1,27 @@
+{% include 'farmerheader.html' %}
+
+<center>
+    <div class="img-div"></div>
+    <h3>Some Harmfull Pest's</h3>
+
+    <table class="table table-striped tbl-new bg-light shadow" style="max-width: 1200px;">
+        <tr>
+            <th>Index</th>
+            <th>Overview</th>
+            <th>Extra details</th>
+        </tr>
+        {% for row in data['res'] %}
+        <tr>
+            <td>{{ loop.index }}</td>
+            <td>Pest <span style="margin: 0px 5px;color: red;">{{ row['pest'] }}</span> is dangerous for {{ row['crop'] }}</td>
+            <td>{{ row['details'] }}</td>
+            <td><a class="btn btn-danger" href="farmer_view_pesticides?hid={{ row['harmfull_id'] }}&pest={{ row['pest'] }}">View Pesticide</a></td>
+  
+
+
+        </tr>
+        {% endfor %}
+    </table>
+</center>
+
+{% include 'footer.html' %}

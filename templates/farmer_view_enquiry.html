@@ -1,0 +1,40 @@
+{% include 'farmerheader.html' %}
+
+<center>
+    <div class="img-div"></div>
+    <h3>Enquiry's</h3>
+    <form action="" method="post">
+    <table class="table table-striped tbl-new bg-light shadow" style="max-width: 1200px;">
+        <tr>
+            <th>Name</th>
+            <th>Place</th>
+            <th>Phone</th>
+            <th>Email</th>
+            <th>Enquiry</th>
+            <th>Date</th>
+            <th>Reply</th>
+
+        </tr>
+        {% for row in data['res'] %}
+        <tr>
+            <td>{{ row['fname'] }}{{ row['lname'] }}</td>
+            <td>{{ row['place'] }}</td>
+            <td>{{ row['phone'] }}</td>
+            <td>{{ row['email'] }}</td>
+            <td>{{ row['enquiry_desc'] }}</td>
+            <td>{{ row['enquiry_date'] }}</td>
+            {% if row['enquiry_reply'] == 'pending' %}
+            <td><input style="resize: horizontal;" type="text" placeholder="Reply here" name="reply{{ loop.index }}" id=""></td>
+            <td><input type="submit" name="btn{{ loop.index }}"></td>
+            <td><input type="hidden" name="enq{{ loop.index }}" value="{{ row['enquiry_id'] }}" id=""></td>
+            {% else %}
+            <td>{{ row['enquiry_reply'] }}</td>
+            {% endif %}
+
+        </tr>
+        {% endfor %}
+    </table>
+</form>
+</center>
+
+{% include 'footer.html' %}
