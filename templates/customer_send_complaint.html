@@ -1,0 +1,40 @@
+{% include 'customerheader.html' %}
+<center>
+    
+    <div class="img-div">
+        <form id="reg2" style="padding-top: 2rem;background: rgba(0, 0, 0, .1);box-shadow: 10px 10px 8px lightgrey" action="" method="post">
+            <h3 class="p-3 text-white">Any Complaints</h3>
+            <div style="width: 60%;" class="reg-container"> 
+                <input placeholder="Add your complaints here." class="form-control" type="text" required name="comp" id="">
+            </div>
+            <div class="reg-container">
+                <input id="reg-btn" style="color: #fff;margin-bottom: 1rem;border: none;outline: none;margin-top: -20px;" type="submit" name="btn" id="">
+            </div>
+        </form>
+    </div>
+
+    <br>
+    <!-- <br> -->
+    <h4 class="p-3">Reply Section</h4>
+
+    <table class="table table-striped tbl-new" style="width: 60%;margin-bottom: 2rem;padding: 1rem !important;">
+        <tr>
+            <th>Index</th>
+            <th>Complaint</th>
+            <th>Reply</th>
+            <th>Date</th>
+        </tr>
+        {% for row in data['res'] %}
+        <tr>
+            <td>{{ loop.index }}</td>
+            <td>{{ row['complaint_desc'] }}</td>
+            <td>{{ row['complaint_reply'] }}</td>
+            <td>{{ row['complaint_date'] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    
+</center>
+
+
+{% include 'footer.html' %}

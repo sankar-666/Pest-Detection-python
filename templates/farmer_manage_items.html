@@ -23,10 +23,7 @@
                 <th>Stock</th>
                 <td><input type="number" class="form-control" value="{{ data['raw'][0]['stock'] }}" required name="stock" id=""></td>
             </tr>
-            <tr>
-                <th>Meassuring unit</th>
-                <td><input type="text" class="form-control" value="{{ data['raw'][0]['meassuring_unit'] }}" required name="munit" id=""></td>
-            </tr>
+  
             <tr>
                 <th>Cost/per Unit</th>
                 <td><input type="number" class="form-control" value="{{ data['raw'][0]['costper_unit'] }}" required name="cpunit" id=""></td>
@@ -57,7 +54,7 @@
             </tr>
             <tr>
                 <th>Meassuring unit</th>
-                <td><input type="text" class="form-control" required name="munit" id=""></td>
+                <td><input type="text" class="form-control" readonly value="gram" required name="munit" id=""></td>
             </tr>
             <tr>
                 <th>Cost/per Unit</th>

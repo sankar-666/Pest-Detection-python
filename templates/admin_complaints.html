@@ -24,9 +24,9 @@
             <td>{{ row['complaint_desc'] }}</td>
             <td>{{ row['complaint_date'] }}</td>
             {% if row['complaint_reply'] == 'pending' %}
-            <td><input style="resize: horizontal;" type="text" placeholder="Reply here" name="reply{{ loop.index }}" id=""></td>
+            <td><input style="resize: horizontal;" type="text"  placeholder="Reply here" name="reply{{ loop.index }}" id=""></td>
             <td><input type="submit" name="btn{{ loop.index }}"></td>
-            <td><input type="hidden" name="comp{{ loop.index }}" value="{{ row['compaint_id'] }}" id=""></td>
+            <td><input type="hidden" name="cid{{ loop.index }}" value="{{ row['complaint_id'] }}" id=""></td>
             {% else %}
             <td>{{ row['complaint_reply'] }}</td>
             {% endif %}

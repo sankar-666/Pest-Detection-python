@@ -358,7 +358,7 @@ def admin_manage_trainingvideos():
     return render_template('admin_manage_trainingvideos.html',data=data) 
 
 
-@admin.route('/admin_complaints')
+@admin.route('/admin_complaints',methods=['get','post'])
 def admin_complaints():
     data={}
     q="select * from complaint inner join customer using (customer_id)"
@@ -367,8 +367,10 @@ def admin_complaints():
 
     for i in range(1,len(res)+1):
         if 'btn'+str(i) in request.form:
-            comp_id=request.form['comp'+str(i)]
+          
+            comp_id=request.form['cid'+str(i)]
             reply=request.form['reply'+str(i)]
+            print("sssssssssssssssssssssssssssss",comp_id,reply)
             q="update complaint set complaint_reply='%s' where complaint_id='%s'"%(reply,comp_id)
             update(q)
             return redirect(url_for("admin.admin_complaints"))

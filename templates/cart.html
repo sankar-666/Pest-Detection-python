@@ -1,0 +1,49 @@
+{% include 'customerheader.html' %}
+
+<center>
+    <div class="img-div"></div>
+    
+    {% if data['res'] %}
+    <h3>Cart</h3>
+
+    <table class="table table-striped tbl-new bg-light shadow" style="max-width: 1200px;">
+        <tr>
+            <th>Index</th>
+            <th>Farmer</th>
+            <th>Item</th>
+            <th>Image</th>
+            <th>Quantity</th>
+            <th>Price</th>
+       
+     
+
+        </tr>
+        {% for row in data['res'] %}
+        <tr>
+            <td>{{ loop.index }}</td>
+            <td>{{ row['fname'] }}{{ row['lname'] }}</td>
+            <td>{{ row['item'] }}</td>
+            <td><img src="/{{ row['item_image'] }}" width="100" height="100" alt="item"></td>
+            <td>{{ row['quantity'] }}</td>
+            <td>{{ row['total_amount'] }}</td>
+          
+
+
+        </tr>
+        {% endfor %}
+    </table>
+    <div style="width: 1000px;display: flex;justify-content: flex-end;align-items: center;padding-right: 100px;">
+        <span>Total: {{ data['res'][0]['totalamount'] }}</span>
+    </div>
+    <div style="width: 1000px;display: flex;justify-content: flex-end;align-items: center;padding-right: 100px;">
+        <a class="btn btn-danger" href="customer_make_payment?omid={{ data['res'][0]['ordermaster_id'] }}&amount={{ data['res'][0]['totalamount'] }}">Check Out</a>
+    </div>
+
+    {% else %}
+        <div style="width: 60%;display: grid;place-items: center;height: 40vh;">
+            <span>No Items,Your Cart is Empty!</span>
+        </div>
+    {% endif %}
+</center>
+
+{% include 'footer.html' %}

@@ -1,0 +1,28 @@
+{% include 'customerheader.html' %}
+
+<center>
+    <div class="img-div"></div>
+    <h3>Pest's Details</h3>
+
+    <table class="table table-striped tbl-new bg-light shadow" style="max-width: 500px;">
+        <tr>
+            <th>Index</th>
+            <th>Pest</th>
+            <th>Details</th>
+     
+
+        </tr>
+        {% for row in data['res'] %}
+        <tr>
+            <td>{{ loop.index }}</td>
+            <td>{{ row['pest'] }}</td>
+            <td>{{ row['details'] }}</td>
+  
+
+
+        </tr>
+        {% endfor %}
+    </table>
+</center>
+
+{% include 'footer.html' %}

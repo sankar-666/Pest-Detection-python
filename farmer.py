@@ -86,15 +86,15 @@ def farmer_manage_items():
         
             item=request.form['item']
             stock=request.form['stock']
-            munit=request.form['munit']
+            # munit=request.form['munit']
             cpunit=request.form['cpunit']
             if request.files['image']:
                 image=request.files['image']
                 path="static/uploads/"+str(uuid.uuid4())+image.filename
                 image.save(path)
-                q="update item set item='%s', item_image='%s', stock='%s', meassuring_unit='%s', costper_unit='%s' where item_id='%s'"%(item,path,stock,munit,cpunit,iid)
+                q="update item set item='%s', item_image='%s', stock='%s',  costper_unit='%s' where item_id='%s'"%(item,path,stock,cpunit,iid)
             else:
-                q="update item set item='%s',  stock='%s', meassuring_unit='%s', costper_unit='%s' where item_id='%s'"%(item,stock,munit,cpunit,iid)
+                q="update item set item='%s',  stock='%s',  costper_unit='%s' where item_id='%s'"%(item,stock,cpunit,iid)
             update(q)
             flash("Updated Successfully")
             return redirect(url_for("farmer.farmer_manage_items",ftid=ftid))
@@ -123,6 +123,23 @@ def farmer_view_orders():
     data={}
     q="select * from `ordermaster`,`orderdetails`,`item`,`customer` where `ordermaster`.ordermaster_id=`orderdetails`.orderdetails_id and `orderdetails`.item_id=`item`.item_id and `ordermaster`.customer_id=`customer`.customer_id and item.farmer_id='%s'"%(session['fid'])
     data['res']=select(q)
+
+    if 'action' in request.args:
+        action=request.args['action']
+        omid=request.args['omid'] 
+    else:
+        action=None
+    
+    if action == "confirm":
+        q="update ordermaster set order_status='payment confirmed' where ordermaster_id='%s'"%(omid)
+     
+        update(q)
+        return redirect(url_for("farmer.farmer_view_orders"))
+    
+    if action == "dispatch":
+        q="update ordermaster set order_status='Delivery Completed' where ordermaster_id='%s'"%(omid)
+        update(q)
+        return redirect(url_for("farmer.farmer_view_orders"))
     return render_template('farmer_view_orders.html',data=data)
 
 
@@ -133,26 +150,12 @@ def farmer_view_payment():
     q="select * from payment where ordermaster_id='%s'"%(omid)
     data['res']=select(q)
 
-    if 'action' in request.args:
-        action=request.args['action']
-        omid=request.args['omid'] 
-    else:
-        action=None
     
-    if action == "confirm":
-        q="update ordermaster set order_status='payment confirmed' where ordermaster_id='%s'"%(omid)
-        update(q)
-        return redirect(url_for("farmer.farmer_view_payment"))
-    
-    if action == "dispatch":
-        q="update ordermaster set order_status='Delivery Completed' where ordermaster_id='%s'"%(omid)
-        update(q)
-        return redirect(url_for("farmer.farmer_view_payment"))
 
     return render_template('farmer_view_payment.html',data=data)
 
 
-@farmer.route('/farmer_view_enquiry')
+@farmer.route('/farmer_view_enquiry',methods=['get','post'])
 def farmer_view_enquiry():
     data={}
     q="select * from enquiry inner join customer using (customer_id)"
