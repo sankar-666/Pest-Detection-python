@@ -7,6 +7,16 @@
     <form class="form" action="" method="post" enctype="multipart/form-data">
         <table class="table form-group">
             <tr>
+                <th>Select Crop</th>
+                <td>
+                    <select class="form-control" name="crop" id="">
+                        {%  for row in data['crops']%}
+                        <option value="{{ row['crop'] }}">{{ row['crop'] }}</option>
+                        {% endfor %}
+                    </select>
+                </td>
+            </tr>
+            <tr>
                 <th>Add Image</th>
                 <td><input type="file" class="form-control" required name="image" id=""></td>
             </tr>
@@ -20,7 +30,7 @@
     <br><br>
     {% if data['showHide'] %}
     <h1 style="color: red;">Output</h1>
-    
+
     <div style="height: 100px;display: grid;place-items: center;">
             <span style="color: red;">{{ out }} Detected</span>
             {% if data['outcome'] %}

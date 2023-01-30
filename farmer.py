@@ -176,9 +176,12 @@ import uuid
 @farmer.route('/farmer_predict_pest',methods=['get','post'])
 def farmer_predict_pest():
     data={}
+    q="select * from crops"
+    data['crops']=select(q)
     out ="No specifice output"
     if 'btn' in request.form:
         image=request.files['image']
+        crop=request.form['crop']
         path="static/prediction/test.png"
         image.save(path)
         val=predictcnn()
@@ -201,7 +204,8 @@ def farmer_predict_pest():
         elif val ==8:
             out="Stem borer"
 
-        q="SELECT * FROM pest INNER JOIN harmfull USING (pest_id) INNER JOIN crops USING (crop_id) where pest like '%s'"%(out)
+        q="SELECT * FROM pest INNER JOIN harmfull USING (pest_id) INNER JOIN crops USING (crop_id) where pest like '%s' and crop like '%s'"%(out,crop)
+        print(q) 
         res=select(q)
         if res:
             data['outcome']=res[0]['crop']
