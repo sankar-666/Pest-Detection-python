@@ -4,8 +4,8 @@
     {% if data['raw'] %}
 
     
-    <h1>Update Event</h1>
-    <form action="" method="post">
+    <h1 class="hd">Update Event</h1>
+    <form action="" method="post" class="form">
         <table class="table form-group">
             <tr>
                 <th>Event</th>
@@ -25,7 +25,7 @@
             </tr>
             <tr>
                
-                <td><input type="submit" class="btn btn-success" name="update" id=""></td>
+                <td colspan="2" align="center"><input type="submit" class="btn btn-success" name="update" id=""></td>
             </tr>
             </table>
             </form>
@@ -33,8 +33,8 @@
 
     {% else %}
     
-    <h1>Manage Event</h1>
-    <form action="" method="post">
+    <h1 class="hd">Manage Event</h1>
+    <form action="" method="post" class="form">
         <table class="table form-group">
             <tr>
                 <th>Event</th>
@@ -54,7 +54,7 @@
             </tr>
             <tr>
                
-                <td><input type="submit" class="btn btn-success" name="btn" id=""></td>
+                <td colspan="2" align="center"><input type="submit" class="btn btn-success" name="btn" id=""></td>
             </tr>
             </table>
             </form>
@@ -64,7 +64,7 @@
     <br><br>
         {% if data['count'] >= 1 %}
     <h5>Venue details</h5>
-    <table class="table table-striped tbl-new">
+    <table style="width: 1400px;" class="table table-striped tbl-new">
         <tr>
             <th>index</th>
             <th>Event</th>
@@ -72,7 +72,7 @@
             <th>Date</th>
             <th>venue</th>
             <th>Status</th>
-        
+            <th></th>
             
         </tr>
         {% for row in data['res'] %}
@@ -84,7 +84,7 @@
             <td>{{ row['event_status'] }}</td>
            
             <td><a class="btn btn-info" href="?action=update&eid={{ row['event_id'] }}">Update</a></td>
-            <td><a class="btn btn-success" onclick="return confirm('Are You Sure!')" href="?action=delete&eid={{ row['event_id'] }}">Delete</a></td>
+            <td><a class="btn btn-danger" onclick="return confirm('Are You Sure!')" href="?action=delete&eid={{ row['event_id'] }}">Delete</a></td>
                    </tr>
         {% endfor %}
     </table>

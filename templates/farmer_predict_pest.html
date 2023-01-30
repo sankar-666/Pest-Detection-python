@@ -1,0 +1,37 @@
+{% include 'farmerheader.html' %}
+<center>
+    <div class="img-div">
+   
+    
+    <h1 class="hd">Predict Pest</h1>
+    <form class="form" action="" method="post" enctype="multipart/form-data">
+        <table class="table form-group">
+            <tr>
+                <th>Add Image</th>
+                <td><input type="file" class="form-control" required name="image" id=""></td>
+            </tr>
+            <tr>
+                <td align="center" colspan="2"><input type="submit" class="btn btn-success" name="btn" id=""></td>
+            </tr>
+            </table>
+            </form>
+
+</div>
+    <br><br>
+    {% if data['showHide'] %}
+    <h1 style="color: red;">Output</h1>
+    
+    <div style="height: 100px;display: grid;place-items: center;">
+            <span style="color: red;">{{ out }} Detected</span>
+            {% if data['outcome'] %}
+            <span>This Pest is Dangerous for {{ data['outcome'] }}</span>
+            {% else %}
+            <span>This is Not a Dangerous Pest</span>
+            {% endif %}
+    </div>
+
+    {% endif %}
+</center>
+
+
+{% include 'footer.html' %}

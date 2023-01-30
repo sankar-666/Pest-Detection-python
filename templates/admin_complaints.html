@@ -13,6 +13,7 @@
             <th>Complaint</th>
             <th>Date</th>
             <th>Reply</th>
+            
 
         </tr>
         {% for row in data['res'] %}
@@ -24,8 +25,8 @@
             <td>{{ row['complaint_desc'] }}</td>
             <td>{{ row['complaint_date'] }}</td>
             {% if row['complaint_reply'] == 'pending' %}
-            <td><input style="resize: horizontal;" type="text"  placeholder="Reply here" name="reply{{ loop.index }}" id=""></td>
-            <td><input type="submit" name="btn{{ loop.index }}"></td>
+            <td><input class="form-control" style="resize: horizontal;" type="text"  placeholder="Reply here" name="reply{{ loop.index }}" id=""></td>
+            <td><input class="btn btn-success" type="submit" name="btn{{ loop.index }}"></td>
             <td><input type="hidden" name="cid{{ loop.index }}" value="{{ row['complaint_id'] }}" id=""></td>
             {% else %}
             <td>{{ row['complaint_reply'] }}</td>

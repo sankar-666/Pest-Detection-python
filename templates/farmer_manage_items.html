@@ -4,8 +4,8 @@
     {% if data['raw'] %}
 
     
-    <h1>Update Items</h1>
-    <form action="" method="post" enctype="multipart/form-data">
+    <h1 class="hd">Update Items</h1>
+    <form class="form" action="" method="post" enctype="multipart/form-data">
         <table class="table form-group">
             <tr>
                 <th>Item</th>
@@ -29,7 +29,7 @@
                 <td><input type="number" class="form-control" value="{{ data['raw'][0]['costper_unit'] }}" required name="cpunit" id=""></td>
             </tr>
             <tr>
-                <td><input type="submit" class="btn btn-success" name="update" id=""></td>
+                <td  align="center" colspan="2"><input type="submit" class="btn btn-success" name="update" id=""></td>
             </tr>
             </table>
             </form>
@@ -37,8 +37,8 @@
 
     {% else %}
     
-    <h1>Manage Items</h1>
-    <form action="" method="post" enctype="multipart/form-data">
+    <h1 class="hd">Manage Items</h1>
+    <form class="form" action="" method="post" enctype="multipart/form-data">
         <table class="table form-group">
             <tr>
                 <th>Item</th>
@@ -61,7 +61,7 @@
                 <td><input type="number" class="form-control" required name="cpunit" id=""></td>
             </tr>
             <tr>
-                <td><input type="submit" class="btn btn-success" name="btn" id=""></td>
+                <td align="center" colspan="2"><input type="submit" class="btn btn-success" name="btn" id=""></td>
             </tr>
             </table>
             </form>
@@ -71,13 +71,15 @@
     <br><br>
     {% if data['count'] >= 1 %}
     <h5>View Crops</h5>
-    <table class="table table-striped tbl-new">
+    <table class="table table-striped tbl-new" style="width: 1300px;">
         <tr>
             <th></th>
             <th>Name</th>
             <th>Stock</th>
             <th>Meassuring Unit</th>
             <th>Cost/per Unit</th>
+            <th></th>
+            <th></th>
         
             
         </tr>

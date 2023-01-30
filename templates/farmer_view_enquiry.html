@@ -24,8 +24,8 @@
             <td>{{ row['enquiry_desc'] }}</td>
             <td>{{ row['enquiry_date'] }}</td>
             {% if row['enquiry_reply'] == 'pending' %}
-            <td><input style="resize: horizontal;" type="text" placeholder="Reply here" name="reply{{ loop.index }}" id=""></td>
-            <td><input type="submit" name="btn{{ loop.index }}"></td>
+            <td><input class="form-control" style="resize: horizontal;" type="text" placeholder="Reply here" name="reply{{ loop.index }}" id=""></td>
+            <td><input class="btn btn-success" type="submit" name="btn{{ loop.index }}"></td>
             <td><input type="hidden" name="enq{{ loop.index }}" value="{{ row['enquiry_id'] }}" id=""></td>
             {% else %}
             <td>{{ row['enquiry_reply'] }}</td>

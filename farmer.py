@@ -1,6 +1,7 @@
 from flask import *
 from database import *
-
+from newcnn import *
+import cv2
 
 farmer=Blueprint('farmer',__name__)
 
@@ -170,3 +171,41 @@ def farmer_view_enquiry():
             update(q)
             return redirect(url_for("farmer.farmer_view_enquiry"))
     return render_template('farmer_view_enquiry.html',data=data)
+
+import uuid
+@farmer.route('/farmer_predict_pest',methods=['get','post'])
+def farmer_predict_pest():
+    data={}
+    out ="No specifice output"
+    if 'btn' in request.form:
+        image=request.files['image']
+        path="static/prediction/test.png"
+        image.save(path)
+        val=predictcnn()
+        if val == 0:
+            out="Aphids"
+        elif val ==1:
+            out="Armyworms"
+        elif val ==2:
+            out="Beetle"
+        elif val ==3:
+            out="Bollworm"
+        elif val ==4:
+            out="Grasshopper"
+        elif val ==5:
+            out="Mites"
+        elif val ==6:
+            out="Mosqito"
+        elif val ==7:
+            out="Sawfly"
+        elif val ==8:
+            out="Stem borer"
+
+        q="SELECT * FROM pest INNER JOIN harmfull USING (pest_id) INNER JOIN crops USING (crop_id) where pest like '%s'"%(out)
+        res=select(q)
+        if res:
+            data['outcome']=res[0]['crop']
+    
+        data['showHide']=True
+        print("Output: ",out)
+    return render_template('farmer_predict_pest.html',data=data,out=out)

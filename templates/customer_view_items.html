@@ -13,6 +13,7 @@
             <th>Available Stock</th>
             <th>Meassuring Unit</th>
             <th>Cost per/unit</th>
+            <th></th>
      
 
         </tr>
@@ -25,7 +26,7 @@
             <td>{{ row['stock'] }}</td>
             <td>{{ row['meassuring_unit'] }}</td>
             <td>{{ row['costper_unit'] }}</td>
-            <td><a href="add_to_cart?iid={{ row['item_id'] }}&cp={{ row['costper_unit'] }}&mu={{ row['meassuring_unit'] }}&item={{ row['item'] }}&stock={{ row['stock'] }}">Add to Cart</a></td>
+            <td><a class="btn btn-dark" href="add_to_cart?iid={{ row['item_id'] }}&cp={{ row['costper_unit'] }}&mu={{ row['meassuring_unit'] }}&item={{ row['item'] }}&stock={{ row['stock'] }}">Add to Cart</a></td>
   
 
 

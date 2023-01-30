@@ -3,8 +3,8 @@
     <div class="img-div">
 
     
-    <h1>Manage harmfull Pest</h1>
-    <form action="" method="post">
+    <h1 class="hd">Manage harmfull Pest</h1>
+    <form action="" method="post" class="form">
         <table class="table form-group">
             <tr>
                 <th>Select Crop</th>
@@ -27,7 +27,7 @@
                 <td><input type="text" class="form-control" name="details"></td>
             </tr>
             <tr>
-                <td><input type="submit" class="btn btn-success" name="btn" id=""></td>
+                <td colspan="2" align="center"><input type="submit" class="btn btn-success" name="btn" id=""></td>
             </tr>
             </table>
             </form>
@@ -43,7 +43,7 @@
             <th>pest</th>
             <th>Crop</th>
             <th>Details</th>
-        
+            <th></th>
             
         </tr>
         {% for row in data['res'] %}
@@ -53,7 +53,7 @@
             <td>{{ row['crop'] }}</td>
             <td>{{ row['details'] }}</td>
            
-             <td><a class="btn btn-success" onclick="return confirm('Are You Sure!')" href="?action=delete&hid={{ row['harmfull_id'] }}">Delete</a></td>
+             <td><a class="btn btn-danger" onclick="return confirm('Are You Sure!')" href="?action=delete&hid={{ row['harmfull_id'] }}">Delete</a></td>
                    </tr>
         {% endfor %}
     </table>

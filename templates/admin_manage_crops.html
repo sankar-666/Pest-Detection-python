@@ -4,8 +4,8 @@
     {% if data['raw'] %}
 
     
-    <h1>Update Crop</h1>
-    <form action="" method="post">
+    <h1 class="hd">Update Crop</h1>
+    <form action="" method="post" class="form">
         <table class="table form-group">
             <tr>
                 <th>Crop</th>
@@ -13,7 +13,7 @@
             </tr>
             <tr>
                
-                <td><input type="submit" class="btn btn-success" name="update" id=""></td>
+                <td colspan="2" align="center"><input type="submit" class="btn btn-success" name="update" id=""></td>
             </tr>
             </table>
             </form>
@@ -21,8 +21,8 @@
 
     {% else %}
     
-    <h1>Manage Crop</h1>
-    <form action="" method="post">
+    <h1 class="hd">Manage Crop</h1>
+    <form action="" method="post" class="form">
         <table class="table form-group">
             <tr>
                 <th>Crop</th>
@@ -30,7 +30,7 @@
             </tr>
             <tr>
                
-                <td><input type="submit" class="btn btn-success" name="btn" id=""></td>
+                <td colspan="2" align="center"><input type="submit" class="btn btn-success" name="btn" id=""></td>
             </tr>
             </table>
             </form>
@@ -40,10 +40,12 @@
     <br><br>
     {% if data['count'] >= 1 %}
     <h5>View Crops</h5>
-    <table class="table table-striped tbl-new">
+    <table class="table table-striped tbl-new" style="width: 1000px;">
         <tr>
             <th>index</th>
             <th>Crop</th>
+            <th></th>
+            <th></th>
         
             
         </tr>
@@ -53,7 +55,7 @@
             <td>{{ row['crop'] }}</td>
            
             <td><a class="btn btn-info" href="?action=update&cid={{ row['crop_id'] }}">Update</a></td>
-            <td><a class="btn btn-success" onclick="return confirm('Are You Sure!')" href="?action=delete&cid={{ row['crop_id'] }}">Delete</a></td>
+            <td><a class="btn btn-danger" onclick="return confirm('Are You Sure!')" href="?action=delete&cid={{ row['crop_id'] }}">Delete</a></td>
                    </tr>
         {% endfor %}
     </table>

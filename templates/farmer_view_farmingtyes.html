@@ -8,6 +8,7 @@
         <tr>
             <th>Index</th>
             <th>Farming type</th>
+            <th></th>
      
 
         </tr>
@@ -15,7 +16,7 @@
         <tr>
             <td>{{ loop.index }}</td>
             <td>{{ row['farmingtype_name'] }}</td>
-            <td><a href="farmer_manage_items?ftid={{ row['farmingtype_id'] }}">Add Items</a></td>
+            <td><a class="btn btn-success" href="farmer_manage_items?ftid={{ row['farmingtype_id'] }}">Add Items</a></td>
 
 
         </tr>
