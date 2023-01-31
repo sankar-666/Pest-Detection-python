@@ -8,7 +8,7 @@
         <tr>
             <th>Index</th>
             <th>Pesticide</th>
-            
+            <th>Amount</th>
      
 
         </tr>
@@ -16,6 +16,8 @@
         <tr>
             <td>{{ loop.index }}</td>
             <td>{{ row['pesticide'] }}</td>
+            <td>{{ row['amount'] }}</td>
+            <td><a style="border-radius: 0%;" class="btn btn-dark" href="customer_add_to_cart_pesticide?pes={{ row['pesticide'] }}&amt={{ row['amount'] }}&pesid={{ row['pesticide_id'] }}">Add to Cart</a></td>
             
   
 

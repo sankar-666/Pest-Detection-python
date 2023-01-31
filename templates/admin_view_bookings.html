@@ -1,0 +1,44 @@
+{% include 'adminheader.html' %}
+
+<center>
+    <div class="img-div"></div>
+    <h3>View Bookings</h3>
+
+    <table class="table table-striped tbl-new bg-light shadow" style="max-width: 1200px;">
+        <tr>
+            <th>Name</th>
+            <th>Phone</th>
+            <th>Place</th>
+            <th>Product</th>
+            <th>Quantity</th>
+            <th>Total</th>
+            <th></th>
+
+        </tr>
+        {% for row in data['res'] %}
+        <tr>
+            <td>{{ row['fname'] }}{{ row['lname'] }}</td>
+ 
+            <td>{{ row['phone'] }}</td>
+            <td>{{ row['place'] }}</td>
+            <td>{{ row['product'] }}</td>
+            <td>{{ row['pquantity'] }}</td>
+            <td>{{ row['total'] }}</td>
+            <td><a class="btn btn-light" href="admin_view_payment?pmid={{row['pordermaster_id']}}">View Payment</a></td>
+
+
+        </tr>
+        {% endfor %}
+    </table>
+</center>
+
+<style>
+    .btn-light:nth-child(odd){
+        background: rgba(0, 0, 0, 0.05) !important;
+    }
+    .btn-light:nth-child(even){
+        background: rgba(255, 255, 255, 0.05) !important;
+    }
+</style>
+
+{% include 'footer.html' %}

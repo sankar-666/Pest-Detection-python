@@ -85,7 +85,7 @@ def add_to_cart():
 @customer.route('/cart')
 def cart():
     data={}
-    q="SELECT * FROM `ordermaster`,`orderdetails`,`item`,`farmer` WHERE `ordermaster`.ordermaster_id=`orderdetails`.orderdetails_id AND `orderdetails`.item_id=`item`.item_id AND `item`.farmer_id=`farmer`.farmer_id  and ordermaster.order_status='pending' and ordermaster.customer_id='%s'"%(session['cid'])
+    q="SELECT * FROM `ordermaster`,`orderdetails`,`item`,`farmer` WHERE `ordermaster`.ordermaster_id=`orderdetails`.ordermaster_id AND `orderdetails`.item_id=`item`.item_id AND `item`.farmer_id=`farmer`.farmer_id  and ordermaster.order_status='pending' and ordermaster.customer_id='%s'"%(session['cid'])
     data['res']=select(q)
 
     return render_template('cart.html',data=data)
@@ -94,7 +94,7 @@ def cart():
 @customer.route('/customer_my_orders')
 def customer_my_orders():
     data={}
-    q="SELECT * FROM `ordermaster`,`orderdetails`,`item`,`farmer` WHERE `ordermaster`.ordermaster_id=`orderdetails`.orderdetails_id AND `orderdetails`.item_id=`item`.item_id AND `item`.farmer_id=`farmer`.farmer_id  and ordermaster.customer_id='%s'"%(session['cid'])
+    q="SELECT * FROM `ordermaster`,`orderdetails`,`item`,`farmer` WHERE `ordermaster`.ordermaster_id=`orderdetails`.ordermaster_id AND `orderdetails`.item_id=`item`.item_id AND `item`.farmer_id=`farmer`.farmer_id  and ordermaster.customer_id='%s'"%(session['cid'])
     data['res']=select(q)
 
     return render_template('customer_my_orders.html',data=data)
@@ -106,7 +106,7 @@ def customer_make_payment():
     omid=request.args['omid']
     amount=request.args['amount']
     if 'btn' in request.form:
-        q="insert into payment values (null,'%s','%s',curdate())"%(omid,amount)
+        q="insert into payment values (null,'%s','item','%s',curdate())"%(omid,amount)
         insert(q)
         q="update ordermaster set order_status='payment completed'  where ordermaster_id='%s'"%(omid)
         update(q)
@@ -154,3 +154,77 @@ def customer_add_enquiry():
     q="select * from enquiry where customer_id='%s'"%(cid)
     data['res']=select(q)
     return render_template("customer_add_enquiry.html",data=data)
+
+
+
+
+
+@customer.route('/customer_add_to_cart_pesticide',methods=['get','post'])
+def customer_add_to_cart_pesticide():
+    data={}
+    pes=request.args['pes']
+    amt=request.args['amt']
+    pesid=request.args['pesid']
+
+    if 'btn' in request.form:
+        total = request.form['total']
+        rstock = request.form['rstock']
+
+        q="select * from pordermaster where p_status='pending' and customer_id='%s'"%(session['loginid'])
+        res=select(q)
+        if res:
+            oid=res[0]['pordermaster_id']
+        else:
+            q="insert into pordermaster values(null,'%s',curdate(),0,'pending')"%(session['loginid'])
+            oid=insert(q)
+        q="select * from porderdetails where pesticide_id='%s' and pordermaster_id='%s'"%(pesid,oid)
+        val=select(q)
+        if val:
+            q="update porderdetails set pquantity=pquantity+'%s', p_total=p_total+'%s' where pesticide_id='%s' and pordermaster_id='%s' "%(rstock,total,pesid,oid)
+            update(q)
+        else:
+            q="insert into porderdetails values (null,'%s','%s','%s','%s','pending')"%(oid,pesid,rstock,total)
+            insert(q)
+        q="update pordermaster set p_amount=p_amount+'%s' where pordermaster_id='%s'"%(total,oid)
+        update(q)
+        flash("Successfully added to Cart")
+        return redirect(url_for("customer.customerhome"))
+
+   
+    return render_template('customer_add_to_cart_pesticide.html',data=data,pes=pes,amt=amt)
+
+
+
+@customer.route('/customer_pesticide_cart')
+def customer_pesticide_cart():
+    data={}
+    q="SELECT * FROM `pordermaster`,`porderdetails`,`pesticide` WHERE `pordermaster`.pordermaster_id=`porderdetails`.pordermaster_id AND `porderdetails`.pesticide_id=`pesticide`.pesticide_id  and pordermaster.p_status='pending' and pordermaster.customer_id='%s'"%(session['loginid'])
+    data['res']=select(q)
+
+    return render_template('customer_pesticide_cart.html',data=data)
+
+
+@customer.route('/customer_make_pest_payment',methods=['get','post'])
+def customer_make_pest_payment():
+    data={}
+    pmid=request.args['pmid']
+    amount=request.args['amount']
+    if 'btn' in request.form:
+        q="insert into payment values (null,'%s','pesticide','%s',curdate())"%(pmid,amount)
+        insert(q)
+        q="update pordermaster set p_status='payment completed'  where pordermaster_id='%s'"%(pmid)
+        update(q)
+        flash("Payment Completed")
+        return redirect(url_for("customer.customerhome"))
+    return render_template('customer_make_pest_payment.html',data=data,total=amount)
+
+
+
+
+@customer.route('/customer_my_pestbooking')
+def customer_my_pestbooking():
+    data={}
+    q="SELECT * FROM `pordermaster`,`porderdetails`,`pesticide` WHERE `pordermaster`.pordermaster_id=`porderdetails`.pordermaster_id AND `porderdetails`.pesticide_id=`pesticide`.pesticide_id  and  pordermaster.customer_id='%s'"%(session['loginid'])
+    data['res']=select(q)
+
+    return render_template('customer_my_pestbooking.html',data=data)

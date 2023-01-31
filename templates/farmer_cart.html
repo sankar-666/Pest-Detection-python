@@ -1,0 +1,47 @@
+{% include 'farmerheader.html' %}
+
+<center>
+    <div class="img-div"></div>
+    
+    {% if data['res'] %}
+    <h3>Cart</h3>
+
+    <table class="table table-striped tbl-new bg-light shadow" style="max-width: 1200px;">
+        <tr>
+            <th>Index</th>
+         
+            <th>Pesticide</th>
+            <th>Quantity</th>
+            <th>Amount</th>
+         
+     
+
+        </tr>
+        {% for row in data['res'] %}
+        <tr>
+            <td>{{ loop.index }}</td>
+          
+            <td>{{ row['pesticide'] }}</td>
+           <td>{{ row['pquantity'] }}</td>
+            <td>{{ row['p_total'] }}</td>
+          
+
+
+        </tr>
+        {% endfor %}
+    </table>
+    <div style="width: 1000px;display: flex;justify-content: flex-end;align-items: center;padding-right: 100px;">
+        <span>Total: {{ data['res'][0]['p_amount'] }}</span>
+    </div>
+    <div style="width: 1000px;display: flex;justify-content: flex-end;align-items: center;padding-right: 100px;">
+        <a class="btn btn-danger" href="farmer_make_payment?pmid={{ data['res'][0]['pordermaster_id'] }}&amount={{ data['res'][0]['p_amount'] }}">Check Out</a>
+    </div>
+
+    {% else %}
+        <div style="width: 60%;display: grid;place-items: center;height: 40vh;">
+            <span>No Items,Your Cart is Empty!</span>
+        </div>
+    {% endif %}
+</center>
+
+{% include 'footer.html' %}

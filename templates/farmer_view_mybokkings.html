@@ -1,0 +1,44 @@
+{% include 'farmerheader.html' %}
+
+<center>
+    <div class="img-div"></div>
+    
+    {% if data['res'] %}
+    <h3>My Orders</h3>
+
+    <table class="table table-striped tbl-new bg-light shadow" style="max-width: 1200px;">
+        <tr>
+            <th>Index</th>
+
+            <th>Pesticide</th>
+            <th>Amount</th>
+            <th>Quantity</th>
+     
+            <th>Delivery Status</th>
+       
+     
+
+        </tr>
+        {% for row in data['res'] %}
+        <tr>
+            <td>{{ loop.index }}</td>
+         
+            <td>{{ row['pesticide'] }}</td>
+             <td>{{ row['p_amount'] }}</td>
+            <td>{{ row['pquantity'] }}</td>
+            <td>{{ row['p_status'] }}</td>
+          
+
+
+        </tr>
+        {% endfor %}
+    </table>
+    
+    {% else %}
+        <div style="width: 60%;display: grid;place-items: center;height: 40vh;">
+            <span>No Orders,Your have no Order History!</span>
+        </div>
+    {% endif %}
+</center>
+
+{% include 'footer.html' %}

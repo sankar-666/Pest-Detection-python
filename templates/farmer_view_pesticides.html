@@ -4,10 +4,12 @@
     <div class="img-div"></div>
     <h3>Best Pesticdes for  <span style="margin: 0px 5px;color: red;text-transform: uppercase;">{{ pest }}</span></h3>
 
-    <table class="table table-striped tbl-new bg-light shadow" style="max-width: 500px;">
+    <table class="table table-striped tbl-new bg-light shadow" style="max-width: 800px;">
         <tr>
             <th>Index</th>
             <th>Pesticide</th>
+            <th>Amount</th>
+            <th></th>
             
      
 
@@ -16,6 +18,8 @@
         <tr>
             <td>{{ loop.index }}</td>
             <td>{{ row['pesticide'] }}</td>
+            <td>{{ row['amount'] }}</td>
+            <td><a style="border-radius: 0%;" class="btn btn-dark" href="add_to_cart_pesticide?pes={{ row['pesticide'] }}&amt={{ row['amount'] }}&pesid={{ row['pesticide_id'] }}">Add to Cart</a></td>
             
   
 

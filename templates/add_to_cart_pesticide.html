@@ -1,62 +1,59 @@
-{% include 'adminheader.html' %}
-<center>
-    <div class="img-div">
+{% include 'farmerheader.html' %}
 
-    
-    <h1 class="hd">Manage pesticides</h1>
-    <form action="" class="form" method="post">
+<center>
+    <h1 style="margin-top: 140px;">Add to Cart</h1>
+    <form action="" method="post" class="form">
         <table class="table form-group">
             <tr>
-                <th>Select Harmfull pest</th>
-                <td><select name="hm_id" class="form-control" id="">
-                    {% for row in data['harm'] %}
-                    <option value="{{ row['harmfull_id'] }}">{{ row['pest'] }}</option>
-                    {% endfor %}
-                </select></td>
-            </tr>
-            <tr>
-                <th>Add pesticide</th>
-                <td><input type="text" class="form-control" name="pest"></td>
+                <th>Pesticide</th>
+                <td><input disabled type="text" class="form-control" value="{{ pes }}" name="item" id=""></td>
             </tr>
             <tr>
                 <th>Amount</th>
-                <td><input type="number" class="form-control" name="amount"></td>
+                <td><input type="text" class="form-control" disabled required value="{{ amt }}" name="cp" id="CP"></td>
             </tr>
             <tr>
-                <td colspan="2" align="center"><input type="submit" class="btn btn-success" name="btn" id=""></td>
+                <th>Quantity</th>
+                <td><input oninput="calTotal()" type="number" class="form-control" required name="rstock" id="stock"></td>
             </tr>
-            </table>
-            </form>
-
-
-</div>
-    <br><br>
-    {% if data['count'] >= 1 %}
-    <h5>harmfull Pest's With pesticide</h5>
-    <table class="table table-striped tbl-new" style="max-width: 500px;">
-        <tr>
-            <th>index</th>
-            <th>pest</th>
-            <th>Pesticide</th>
-            <th>Amount</th>
-            <th></th>
-        
-            
-        </tr>
-        {% for row in data['res'] %}
-        <tr>
-            <td>{{ loop.index }}</td>
-            <td>{{ row['pest'] }}</td>
-            <td>{{ row['pesticide'] }}</td>
-            <td>{{ row['amount'] }}</td>
-            
-           
-             <td><a class="btn btn-danger" onclick="return confirm('Are You Sure!')" href="?action=delete&pid={{ row['pesticide_id'] }}">Delete</a></td>
-                   </tr>
-        {% endfor %}
-    </table>
-    {% endif %}
+            <tr>
+                <th>Total Amount</th>
+                <td><input type="text"  readonly class="form-control" required name="total" id="totalVal"></td>
+            </tr>
+            <tr>
+                <td colspan="2" align="center"><input type="submit" class="btn btn-primary"  name="btn" id="btn"></td>
+            </tr>
+        </table>
+    </form>
 </center>
+
+<script>
+    var cost = document.getElementById("CP")
+   
+    var total = document.getElementById("totalVal")
+
+    
+    function calTotal(){
+        var rStock = document.getElementById("stock").value
+
+    
+            
+            total.value=parseInt(cost.value)*parseInt(rStock)
+            
+
+
+       
+
+    }
+</script>
+
+
+<style>
+    tr,td,th{
+        border: none !important;
+    }
+</style>
+
 
 <script src="
 https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js">
@@ -88,6 +85,7 @@ https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js">
               var re = /([A-Z0-9a-z_-][^@])+?@[^$#<>?]+?\.[\w]{1,}/.test(this.value);
                 if(!re) {
                     $('#eerror').show();
+                    $('#btn').prop('disabled', true);
                 } else {
                     $('#eerror').hide();
                 }
@@ -110,5 +108,6 @@ https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js">
 
 
 </script>
+
 
 {% include 'footer.html' %}

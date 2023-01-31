@@ -1,0 +1,21 @@
+{% include 'adminheader.html' %}
+
+<center>
+    <div class="img-div"></div>
+    <h3>Payment Details</h3>
+
+    <table class="table table-striped tbl-new bg-light shadow" style="max-width: 600px;">
+       
+        {% for row in data['res'] %}
+        <tr>
+           
+            <td>Rs.{{ row['total'] }} was paid on {{ row['payment_date'] }}</td>
+  
+
+
+        </tr>
+        {% endfor %}
+    </table>
+</center>
+
+{% include 'footer.html' %}

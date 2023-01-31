@@ -272,9 +272,10 @@ def admin_manage_pesticide():
     if 'btn' in request.form:
         hm_id=request.form['hm_id']
         pest=request.form['pest']
+        amount=request.form['amount']
         
     
-        q="insert into pesticide values (null,'%s','%s')"%(hm_id,pest)
+        q="insert into pesticide values (null,'%s','%s','%s')"%(hm_id,pest,amount)
         insert(q)
         flash("Successfully Added")
         return redirect(url_for("admin.admin_manage_pesticide"))
@@ -375,3 +376,27 @@ def admin_complaints():
             update(q)
             return redirect(url_for("admin.admin_complaints"))
     return render_template('admin_complaints.html',data=data)
+
+
+
+@admin.route('/admin_view_bookings')
+def admin_view_bookings():
+    data={}
+    q="""
+      
+    SELECT fname,pordermaster.pordermaster_id,lname,phone,place,pesticide AS product,pquantity,p_amount AS total FROM `pordermaster`,`porderdetails`,`pesticide`,`customer` WHERE `pordermaster`.`pordermaster_id`=`porderdetails`.`pordermaster_id` AND `porderdetails`.`pesticide_id`=`pesticide`.`pesticide_id` AND `pordermaster`.`customer_id`=`customer`.`login_id`
+    UNION
+    SELECT fname,pordermaster.pordermaster_id,lname,phone,place,pesticide AS product,pquantity,p_amount AS total FROM `pordermaster`,`porderdetails`,`pesticide`,`farmer` WHERE `pordermaster`.`pordermaster_id`=`porderdetails`.`pordermaster_id` AND `porderdetails`.`pesticide_id`=`pesticide`.`pesticide_id` AND `pordermaster`.`customer_id`=`farmer`.`login_id`
+
+    """
+    data['res']=select(q)
+    return render_template('admin_view_bookings.html',data=data)
+
+
+@admin.route('/admin_view_payment')
+def admin_view_payment():
+    data={}
+    pmid=request.args['pmid']
+    q="select * from payment where ordermaster_id='%s' and type='pesticide'"%(pmid)
+    data['res']=select(q)
+    return render_template('admin_view_payment.html',data=data)
