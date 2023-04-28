@@ -8,6 +8,7 @@
         <tr>
             <th></th>
             <th>Item</th>
+            <th>farmer</th>
             <th>Stock</th>
             <th>Meassuring unit</th>
             <th>Cost per unit</th>
@@ -18,6 +19,7 @@
         <tr>
             <td><img src="/{{ row['item_image'] }}" width="100" height="100" alt="item"></td>
             <td>{{ row['item'] }}</td>
+            <td>{{ row['fname'] }} {{ row['lname'] }}</td>
             <td>{{ row['stock'] }}</td>
             <td>{{ row['meassuring_unit'] }}</td>
             <td>{{ row['costper_unit'] }}</td>

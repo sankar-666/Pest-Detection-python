@@ -8,6 +8,7 @@
         <tr>
             <th>Index</th>
             <th>Pest</th>
+            <th>Image</th>
             <th>Details</th>
      
 
@@ -16,6 +17,7 @@
         <tr>
             <td>{{ loop.index }}</td>
             <td>{{ row['pest'] }}</td>
+            <td><img src="/{{ row['image'] }}" style="width: 70px;height: 70px;border-radius: 10px;" alt=""></td>
             <td>{{ row['details'] }}</td>
   
 

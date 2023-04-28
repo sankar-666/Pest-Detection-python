@@ -9,7 +9,8 @@
     <table class="table table-striped tbl-new bg-light shadow" style="max-width: 1200px;">
         <tr>
             <th>Index</th>
-         
+            <th>Image</th>
+            
             <th>Pesticide</th>
             <th>Quantity</th>
             <th>Amount</th>
@@ -20,7 +21,7 @@
         {% for row in data['res'] %}
         <tr>
             <td>{{ loop.index }}</td>
-          
+            <td><img src="/{{ row['image'] }}" style="width: 70px;height: 70px;border-radius: 10px;" alt=""></td>
             <td>{{ row['pesticide'] }}</td>
            <td>{{ row['pquantity'] }}</td>
             <td>{{ row['p_total'] }}</td>

@@ -6,7 +6,10 @@ customer=Blueprint('customer',__name__)
 
 @customer.route('/customerhome')
 def customerhome():
-    return render_template('customerhome.html')
+    data={}
+    cname= session['cname']
+    data['cname']=cname
+    return render_template('customerhome.html',data=data)
 
 @customer.route('/customer_view_pest')
 def customer_view_pest():
@@ -30,7 +33,8 @@ def customer_view_pesticides():
     data={}
     hid=request.args['hid']
     pest=request.args['pest']
-    q="SELECT * from pesticide where harmfull_id='%s'"%(hid)
+    q="SELECT * FROM `pesticide` WHERE harmfull_id IN (SELECT harmfull_id FROM `harmfull` ) and harmfull_id='%s'"%(hid)
+    print(q)
     data['res']=select(q)
     return render_template('customer_view_pesticides.html',data=data,pest=pest)
 
@@ -140,18 +144,23 @@ def customer_send_complaint():
 @customer.route("/customer_add_enquiry",methods=['get','post'])
 def customer_add_enquiry():
     data={}
+    
+    q="select * from farmer"
+    res=select(q)
+    data['farmer']=res
 
     cid=session['cid']
 
     if 'btn' in request.form:
         comp=request.form['comp']
+        farmer=request.form['farmer']
 
-        q="insert into enquiry values(NULL,'%s',0,'%s','pending',curdate())"%(cid,comp)
+        q="insert into enquiry values(NULL,'%s',%s,'%s','pending',curdate())"%(cid,farmer,comp)
         print(q)
         insert(q)
         return redirect(url_for("customer.customer_add_enquiry"))
     
-    q="select * from enquiry where customer_id='%s'"%(cid)
+    q="select * from enquiry inner join farmer using(farmer_id) where customer_id='%s'"%(cid)
     data['res']=select(q)
     return render_template("customer_add_enquiry.html",data=data)
 

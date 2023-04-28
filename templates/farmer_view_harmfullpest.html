@@ -13,7 +13,7 @@
         {% for row in data['res'] %}
         <tr>
             <td>{{ loop.index }}</td>
-            <td>Pest <span style="margin: 0px 5px;color: red;">{{ row['pest'] }}</span> is dangerous for {{ row['crop'] }}</td>
+            <td><img src="/{{ row['image'] }}" style="width: 70px;height: 70px;border-radius: 10px;margin-right: 10px;" alt="">Pest <span style="margin: 0px 5px;color: red;">{{ row['pest'] }}</span> is dangerous for {{ row['crop'] }}</td>
             <td>{{ row['details'] }}</td>
             <td><a class="btn btn-danger" href="farmer_view_pesticides?hid={{ row['harmfull_id'] }}&pest={{ row['pest'] }}">View Pesticide</a></td>
   

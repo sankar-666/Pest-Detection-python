@@ -22,11 +22,11 @@
             </tr>
             <tr>
                 <th>Pincode</th>
-                <td><input type="text" class="form-control" required name="pin" max="6" id=""></td>
+                <td><input type="text" class="form-control" required name="pin" maxlength="6" id=""></td>
             </tr>
             <tr>
                 <th>Phone</th>
-                <td><input type="text" class="form-control" required name="phone" max="10" id=""></td>
+                <td><input type="text" class="form-control" required name="phone" maxlength="10" id=""></td>
             </tr>
             <tr>
                 <th>Email</th>
@@ -92,6 +92,7 @@ https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js">
                     $('#btn').prop('disabled', true);
                 } else {
                     $('#eerror').hide();
+                    $('#btn').prop('disabled', false);
                 }
 
         });

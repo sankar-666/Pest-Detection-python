@@ -14,7 +14,7 @@ def login():
 
     if 'btn' in request.form:
         uname=request.form['uname']
-        pasw =request.form['pasw']
+        pasw =request.form['pasw'] 
 
         q="select * from login where username='%s' and password='%s'"%(uname,pasw)
         res=select(q)
@@ -26,18 +26,20 @@ def login():
             if utype == "admin":
                 flash("Login Success")
                 return redirect(url_for("admin.adminhome"))
-            elif utype == "customer":
-                q="select * from customer where login_id='%s'"%(session['loginid'])
-                val=select(q)
-                if val:
-                    session['cid']=val[0]['customer_id']
-                    flash("Login Success")
-                    return redirect(url_for("customer.customerhome"))
+            # elif utype == "customer":
+            #     q="select * from customer where login_id='%s'"%(session['loginid'])
+            #     val=select(q)
+            #     if val:
+            #         session['cid']=val[0]['customer_id']
+            #         flash("Login Success")
+            #         session['cname']=val[0]['fname']+" "+val[0]['lname']
+            #         return redirect(url_for("customer.customerhome"))
             elif utype == "farmer":
                 q="select * from farmer where login_id='%s'"%(session['loginid'])
                 val1=select(q)
                 if val1:
                     session['fid']=val1[0]['farmer_id']
+                    session['fname']=val1[0]['fname']+" "+val1[0]['lname']
                     flash("Login Success")
                     return redirect(url_for("farmer.farmerhome"))
                
@@ -99,16 +101,17 @@ def farmerreg():
         gender=request.form['gender']
         uname=request.form['uname'] 
         passw=request.form['passw'] 
+        email=request.form['email'] 
 
         q="select * from login where username='%s'"%(uname)
         res=select(q)
         if res:
             flash("Username Already Exist!")
         else:
-            q="insert into `login` values(NULL,'%s','%s','farmer')"%(uname,passw)
+            q="insert into `login` values(NULL,'%s','%s','pending')"%(uname,passw)
             res=insert(q)
 
-            w="insert into farmer value(NULL,'%s','%s','%s','%s','%s','%s','%s','%s','%s')"%(res,fname,lname,hname,place,pin,phone,gender,date)
+            w="insert into farmer value(NULL,'%s','%s','%s','%s','%s','%s','%s','%s','%s','%s')"%(res,fname,lname,hname,place,pin,phone,gender,date,email)
             insert(w)
             flash("Registration Successfull")
             return redirect(url_for("public.login"))

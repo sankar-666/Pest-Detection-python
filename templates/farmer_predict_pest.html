@@ -32,9 +32,9 @@
     <h1 style="color: red;">Output</h1>
 
     <div style="height: 100px;display: grid;place-items: center;">
-            <span style="color: red;">{{ out }} Detected</span>
+            <span style="color: red;">{{ out }} Detected &nbsp;&nbsp;&nbsp; <a href="more_pest_details?pest={{ out }}" class="btn btn-danger">View More details</a></span>
             {% if data['outcome'] %}
-            <span>This Pest is Dangerous for {{ data['outcome'] }}</span>
+            <span>This Pest is Dangerous for {{ data['outcome'] }} &nbsp;&nbsp;&nbsp;<a href="farmer_view_pesticides?hid={{ hid }}&pest={{ pest }}" class="btn btn-success">View Pesticide</a></span>
             {% else %}
             <span>This is Not a Dangerous Pest</span>
             {% endif %}

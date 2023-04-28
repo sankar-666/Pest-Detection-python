@@ -4,9 +4,22 @@
     <div class="img-div">
         <form id="reg2" class="form" action="" method="post">
             <h3 class="p-3 text-white">Add Enquiry</h3>
+
+            <div style="width: 60%;" class="reg-container"> 
+               <select name="farmer" id="" required class="form-control">
+
+                    <option value="">--Select Farmer--</option>
+                    {% for i in data['farmer'] %}
+                    <option value="{{i['farmer_id']}}">{{i['fname']}} {{i['lname']}}</option>
+                    {% endfor %}
+               </select>
+            </div>
+            
             <div style="width: 60%;" class="reg-container"> 
                 <input placeholder="Add Enquiry here." class="form-control" type="text" required name="comp" id="">
             </div>
+        
+           
             <div class="reg-container mt-4">
                 <input id="reg-btn" class="btn btn-success" type="submit" name="btn" id="">
             </div>
@@ -21,6 +34,7 @@
         <tr>
             <th>Index</th>
             <th>Enquiry</th>
+            <th>Farmer</th>
             <th>Reply</th>
             <th>Date</th>
         </tr>
@@ -28,6 +42,7 @@
         <tr>
             <td>{{ loop.index }}</td>
             <td>{{ row['enquiry_desc'] }}</td>
+            <td>{{ row['fname'] }} {{ row['lname'] }}</td>
             <td>{{ row['enquiry_reply'] }}</td>
             <td>{{ row['enquiry_date'] }}</td>
         </tr>

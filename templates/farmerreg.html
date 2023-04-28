@@ -1,6 +1,11 @@
 {% include 'publicheader.html' %}
 
 <center>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
     <h1 class="hd">farmer registration</h1>
     <form action="" class="form" method="post">
         <table class="table form-group">
@@ -22,11 +27,11 @@
             </tr>
             <tr>
                 <th>Pincode</th>
-                <td><input type="text" class="form-control" required name="pin" max="6" id=""></td>
+                <td><input type="text" class="form-control" required name="pin" maxlength="6" id=""></td>
             </tr>
             <tr>
                 <th>Phone</th>
-                <td><input type="text" class="form-control" required name="phone" max="10" id=""></td>
+                <td><input type="text" class="form-control" required name="phone" maxlength="10" id=""></td>
             </tr>
             <tr>
                 <th>Gender</th>
@@ -40,6 +45,10 @@
             <tr>
                 <th>Date of Birth</th>
                 <td><input type="date" class="form-control" required name="date" id=""></td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td><input type="email" class="form-control" required name="email" id=""></td>
             </tr>
             <tr>
                 <th>Username</th>
@@ -97,6 +106,7 @@ https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js">
                     $('#btn').prop('disabled', true);
                 } else {
                     $('#eerror').hide();
+                    $('#btn').prop('disabled', false);
                 }
 
         });
