@@ -8,6 +8,7 @@
         <tr>
             <th>Name</th>
             <th>House Name</th>
+            <th>Email</th>
             <th>Place</th>
             <th>Pincode</th>
             <th>Phone</th>
@@ -18,6 +19,7 @@
         {% for row in data['res'] %}
         <tr>
             <td>{{ row['fname'] }}{{ row['lname'] }}</td>
+            <td>{{ row['email'] }}</td>
             <td>{{ row['hname'] }}</td>
             <td>{{ row['place'] }}</td>
             <td>{{ row['pincode'] }}</td>

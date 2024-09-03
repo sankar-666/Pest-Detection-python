@@ -26,6 +26,7 @@ def login():
             if utype == "admin":
                 flash("Login Success")
                 return redirect(url_for("admin.adminhome"))
+<<<<<<< HEAD
             elif utype == "customer":
                 q="select * from customer where login_id='%s'"%(session['loginid'])
                 val=select(q)
@@ -34,6 +35,16 @@ def login():
                     flash("Login Success")
                     session['cname']=val[0]['fname']+" "+val[0]['lname']
                     return redirect(url_for("customer.customerhome"))
+=======
+            # elif utype == "customer":
+            #     q="select * from customer where login_id='%s'"%(session['loginid'])
+            #     val=select(q)
+            #     if val:
+            #         session['cid']=val[0]['customer_id']
+            #         flash("Login Success")
+            #         session['cname']=val[0]['fname']+" "+val[0]['lname']
+            #         return redirect(url_for("customer.customerhome"))
+>>>>>>> 6fa621b94f94916ec4523ff50a545aad18c2c7ab
             elif utype == "farmer":
                 q="select * from farmer where login_id='%s'"%(session['loginid'])
                 val1=select(q)

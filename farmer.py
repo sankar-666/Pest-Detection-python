@@ -36,7 +36,8 @@ def farmer_view_pesticides():
     data={}
     hid=request.args['hid']
     pest=request.args['pest']
-    q="SELECT * from pesticide where harmfull_id='%s'"%(hid)
+    # q="SELECT * from pesticide where harmfull_id='%s'"%(hid)
+    q="SELECT *,pesticide.image as image FROM `pesticide` INNER JOIN `harmfull` USING (harmfull_id) INNER JOIN `pest` USING (pest_id) where pest='%s'"%(pest)
     data['res']=select(q)
     return render_template('farmer_view_pesticides.html',data=data,pest=pest)
 

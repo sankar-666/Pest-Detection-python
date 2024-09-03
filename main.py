@@ -3,6 +3,12 @@ from public import public
 from farmer import farmer
 from admin import admin
 from customer import customer
+from api import api
+
+
+import smtplib
+from email.mime.text import MIMEText
+from flask_mail import Mail
 
 
 import smtplib
@@ -14,6 +20,7 @@ app.secret_key="pest"
 app.register_blueprint(admin,url_prefix="/admin")
 app.register_blueprint(farmer,url_prefix="/farmer")
 app.register_blueprint(customer,url_prefix="/customer")
+app.register_blueprint(api,url_prefix="/api")
 app.register_blueprint(public)
 
 

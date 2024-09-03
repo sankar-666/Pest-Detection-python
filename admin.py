@@ -69,14 +69,22 @@ def adminviewfarmers():
         update(q)
         q="select * from farmer where login_id='%s'"%(login_id)
         email=select(q)[0]['email']
+<<<<<<< HEAD
         pwd="Your Registration request has been Rejected/"
+=======
+        pwd="Your Registration request has been Rejected.........!"
+>>>>>>> 6fa621b94f94916ec4523ff50a545aad18c2c7ab
 
         try:
             gmail = smtplib.SMTP('smtp.gmail.com', 587)
             gmail.ehlo()
             gmail.starttls()
+<<<<<<< HEAD
             # TO DO 
             gmail.login('frommail@gmail.com','your pass')
+=======
+            gmail.login('projectsriss2020@gmail.com','vroiyiwujcvnvade')
+>>>>>>> 6fa621b94f94916ec4523ff50a545aad18c2c7ab
         except Exception as e:
             print("Couldn't setup email!!"+str(e))
 
@@ -86,12 +94,20 @@ def adminviewfarmers():
 
         pwd['To'] = email
 
+<<<<<<< HEAD
         pwd['From'] = 'frommail@gmail.com'
+=======
+        pwd['From'] = 'projectsriss2020@gmail.com'
+>>>>>>> 6fa621b94f94916ec4523ff50a545aad18c2c7ab
 
         try:
             gmail.send_message(pwd)
 
+<<<<<<< HEAD
             flash("Accepted Successfully")
+=======
+            flash("Rejected Successfully")
+>>>>>>> 6fa621b94f94916ec4523ff50a545aad18c2c7ab
             
 
 
@@ -229,8 +245,13 @@ def admin_manage_pest():
         image=request.files['image']
         path="static/uploads/"+str(uuid.uuid4())+image.filename
         image.save(path)
+<<<<<<< HEAD
     
     
+=======
+        
+    
+>>>>>>> 6fa621b94f94916ec4523ff50a545aad18c2c7ab
         q="insert into pest values (null,'%s','%s','%s')"%(pest,details,path)
         insert(q)
         flash("Successfully Added")
@@ -367,7 +388,11 @@ def admin_manage_harmfullpest():
 @admin.route('/admin_manage_pesticide',methods=['get','post'])
 def admin_manage_pesticide():
     data={}
+<<<<<<< HEAD
     q='select * from pest inner join harmfull using (pest_id)'
+=======
+    q="SELECT * FROM pest INNER JOIN harmfull USING(pest_id) GROUP BY pest"
+>>>>>>> 6fa621b94f94916ec4523ff50a545aad18c2c7ab
     data['harm']=select(q)    
     
     if 'btn' in request.form:
@@ -387,7 +412,7 @@ def admin_manage_pesticide():
         return redirect(url_for("admin.admin_manage_pesticide"))
 
 
-    q="select * from harmfull, pesticide, pest where harmfull.harmfull_id=pesticide.harmfull_id and harmfull.pest_id=pest.pest_id "
+    q="select *,pesticide.image as img from harmfull, pesticide, pest where harmfull.harmfull_id=pesticide.harmfull_id and harmfull.pest_id=pest.pest_id "
     data['res']=select(q)
     data['count']=len(select(q))
 
