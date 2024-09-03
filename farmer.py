@@ -7,7 +7,10 @@ farmer=Blueprint('farmer',__name__)
 
 @farmer.route('/farmerhome')
 def farmerhome():
-    return render_template('farmerhome.html')
+    data={}
+    fname=session['fname']
+    data['fname']=fname
+    return render_template('farmerhome.html',data=data)
 
 
 
@@ -122,7 +125,8 @@ def farmer_view_training():
 @farmer.route('/farmer_view_orders')
 def farmer_view_orders():
     data={}
-    q="select * from `ordermaster`,`orderdetails`,`item`,`customer` where `ordermaster`.ordermaster_id=`orderdetails`.orderdetails_id and `orderdetails`.item_id=`item`.item_id and `ordermaster`.customer_id=`customer`.customer_id and item.farmer_id='%s'"%(session['fid'])
+    q="SELECT * FROM `ordermaster`,`orderdetails`,`item`,`customer` WHERE `ordermaster`.ordermaster_id=`orderdetails`.ordermaster_id AND `orderdetails`.item_id=`item`.item_id AND `ordermaster`.customer_id=`customer`.customer_id AND item.farmer_id='%s'"%(session['fid'])
+    print(q)
     data['res']=select(q)
 
     if 'action' in request.args:
@@ -159,7 +163,7 @@ def farmer_view_payment():
 @farmer.route('/farmer_view_enquiry',methods=['get','post'])
 def farmer_view_enquiry():
     data={}
-    q="select * from enquiry inner join customer using (customer_id)"
+    q="select * from enquiry inner join customer using (customer_id) where farmer_id='%s'"%(session['fid'])
     res=select(q)
     data['res']=res
 
@@ -176,6 +180,8 @@ import uuid
 @farmer.route('/farmer_predict_pest',methods=['get','post'])
 def farmer_predict_pest():
     data={}
+    hid=""
+    pest=""
     q="select * from crops"
     data['crops']=select(q)
     out ="No specifice output"
@@ -209,10 +215,14 @@ def farmer_predict_pest():
         res=select(q)
         if res:
             data['outcome']=res[0]['crop']
+            hid=res[0]['harmfull_id']
+            pest=res[0]['pest']
+            print(hid)
+            print(pest)
     
         data['showHide']=True
         print("Output: ",out)
-    return render_template('farmer_predict_pest.html',data=data,out=out)
+    return render_template('farmer_predict_pest.html',data=data,out=out,hid=hid,pest=pest)
 
 
 
@@ -282,5 +292,14 @@ def farmer_view_mybokkings():
     data={}
     q="SELECT * FROM `pordermaster`,`porderdetails`,`pesticide` WHERE `pordermaster`.pordermaster_id=`porderdetails`.pordermaster_id AND `porderdetails`.pesticide_id=`pesticide`.pesticide_id  and  pordermaster.customer_id='%s'"%(session['loginid'])
     data['res']=select(q)
-
     return render_template('farmer_view_mybokkings.html',data=data)
+
+
+@farmer.route('/more_pest_details')
+def more_pest_details():
+    data={}
+    pest='%'+request.args['pest']+'%'
+    q="SELECT * FROM pest where pest like '%s'"%(pest)
+    data['res']=select(q)
+
+    return render_template('more_pest_details.html',data=data)

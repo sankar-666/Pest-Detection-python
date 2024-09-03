@@ -5,7 +5,7 @@
 
     
     <h1 class="hd">Update Pest's</h1>
-    <form action="" method="post" class="form">
+    <form action="" method="post" class="form" enctype="multipart/form-data">
         <table class="table form-group">
             <tr>
                 <th>pest</th>
@@ -14,6 +14,14 @@
             <tr>
                 <th>details</th> 
                 <td><input type="text" class="form-control" value="{{ data['raw'][0]['details'] }}" required name="details" id=""></td>
+            </tr>
+            <tr>
+                <th>Image</th> 
+                <td><img src="/{{ data['raw'][0]['image'] }}" style="width: 70px;height: 70px;border-radius: 10px;" alt=""></td>
+            </tr>
+            <tr>
+                <th></th>
+                <th><input type="file" name="image" class="form-control" id=""></th>
             </tr>
             <tr>
                
@@ -26,7 +34,7 @@
     {% else %}
     
     <h1 class="hd">Manage pest's</h1>
-    <form action="" method="post" class="form">
+    <form action="" method="post" class="form" enctype="multipart/form-data">
         <table class="table form-group">
             <tr>
                 <th>pest</th>
@@ -35,6 +43,10 @@
             <tr>
                 <th>details</th>
                 <td><input type="text" class="form-control" required name="details" id=""></td>
+            </tr>
+            <tr>
+                <th>Image</th>
+                <td><input type="file"  class="form-control" required name="image" id=""></td>
             </tr>
             <tr>
                
@@ -53,6 +65,7 @@
             <th>index</th>
             <th>pest</th>
             <th>Details</th>
+            <th>Image</th>
             <th></th>
             <th></th>
             
@@ -62,7 +75,7 @@
             <td>{{ loop.index }}</td>
             <td>{{ row['pest'] }}</td>
             <td>{{ row['details'] }}</td>
-           
+            <td><img src="/{{ row['image'] }}" style="width: 70px;height: 70px;border-radius: 10px;" alt=""></td>
             <td><a class="btn btn-info" href="?action=update&pid={{ row['pest_id'] }}">Update</a></td>
             <td><a class="btn btn-danger" onclick="return confirm('Are You Sure!')" href="?action=delete&pid={{ row['pest_id'] }}">Delete</a></td>
                    </tr>

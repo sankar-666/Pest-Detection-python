@@ -4,7 +4,6 @@
 import os
 
 import tensorflow as tf
-# sess = tf.Session()
 import keras
 from keras.engine.saving import load_model
 from keras.models import Sequential
@@ -23,7 +22,7 @@ import numpy as np
 #variables
 num_classes =18
 batch_size = 60
-epochs = 150
+epochs = 90
 #------------------------------
 
 import os, cv2, keras
@@ -38,11 +37,7 @@ import numpy as np
 
 # data visualization
 import cv2
-import matplotlib
 import matplotlib.pyplot as plt
-# import seaborn as sns
-
-# get_ipython().run_line_magic('matplotlib', 'inline')
 
 
 # Data Import
@@ -69,23 +64,11 @@ def read_dataset():
 
     return (np.asarray(data_list, dtype=np.float32), np.asarray(label_list))
 
-def read_dataset1(path):
-    data_list = []
-    label_list = []
-
-    file_path = os.path.join(path)
-    img = cv2.imread(file_path, cv2.IMREAD_GRAYSCALE)
-    res = cv2.resize(img, (48, 48), interpolation=cv2.INTER_CUBIC)
-    data_list.append(res)
-    # label = dirPath.split('/')[-1]
-
-            # label_list.remove("./training")
-    return (np.asarray(data_list, dtype=np.float32))
 
 from sklearn.model_selection import train_test_split
 # load dataset
 x_dataset, y_dataset = read_dataset()
-X_train, X_test, y_train, y_test = train_test_split(x_dataset, y_dataset, test_size=0.5, random_state=0)
+X_train, X_test, y_train, y_test = train_test_split(x_dataset, y_dataset, test_size=0.2, random_state=0)
 
 y_train1=[]
 for i in y_train:
@@ -139,9 +122,6 @@ model.add(Dropout(0.2))
 model.add(Dense(num_classes, activation='softmax'))
 # ------------------------------
 # batch process
-
-print(x_train.shape)
-
 gen = ImageDataGenerator()
 train_generator = gen.flow(x_train, y_train, batch_size=batch_size)
 
@@ -155,27 +135,13 @@ model.compile(loss='categorical_crossentropy'
 # ------------------------------
 
 if not os.path.exists("model1.h5"):
-
     model.fit_generator(train_generator, steps_per_epoch=batch_size, epochs=epochs)
     model.save("model1.h5")  # train for randomly selected one
 else:
     model = load_model("model1.h5")  # load weights
+
+
+
 from sklearn.metrics import confusion_matrix
 yp=model.predict_classes(x_test,verbose=0)
 cf=confusion_matrix(y_test,yp)
-print(cf)
-def predictcnn(fn):
-    dataset=read_dataset1(fn)
-    (mnist_row, mnist_col, mnist_color) = 48, 48, 1
-
-    dataset = dataset.reshape(dataset.shape[0], mnist_row, mnist_col, mnist_color)
-    mo = load_model("mode1.h5")
-
-    # predict probabilities for test set
-
-    yhat_classes = mo.predict_classes(dataset, verbose=0)
-    return yhat_classes
-#
-#     print(yhat_classes)
-
-#predict(r"D:\vehicle classification with deep learning\src\semi-semitrailer-truck-tractor-highway.jpg")

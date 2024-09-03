@@ -8,7 +8,7 @@
     <form action="" method="post" enctype="multipart/form-data" class="form">
         <table class="table form-group">
             <tr>
-                <th>title</th>
+                <th>Title</th>
                 <td><input type="text" class="form-control" value="{{ data['raw'][0]['title'] }}" required name="title" id=""></td>
             </tr>
             <tr>
@@ -33,11 +33,11 @@
 
     {% else %}
     
-    <h1 class="hd">Manage Traning Contents</h1>
+    <h1 class="hd">Manage Training Contents</h1>
     <form action="" method="post" enctype="multipart/form-data" class="form">
         <table class="table form-group">
             <tr>
-                <th>title</th>
+                <th>Title</th>
                 <td><input type="text" class="form-control"  required name="title" id=""></td>
             </tr>
             <tr>
@@ -140,3 +140,250 @@ https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js">
 </script>
 
 {% include 'footer.html' %}
+
+
+
+{% include 'admin_header.html'%}
+
+<style>
+    /* Custom CSS for background card view */
+    body {
+        background-color: #f8f9fa; /* Set background color */
+        font-family: Arial, sans-serif; /* Set font */
+    }
+
+    .container {
+        max-width: 1600px; /* Set max-width of the container */
+        margin: 0 auto; /* Center the container horizontally */
+        padding: 20px; /* Add some padding */
+    }
+
+    .card {
+        width: 1200px; /* Set width of the card */
+        background-color: #ffffff; /* Set background color of the card */
+        border-radius: 10px; /* Add border radius to create rounded corners */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Add shadow for depth */
+        padding: 20px; /* Add padding inside the card */
+        margin-bottom: 20px; /* Add margin to separate cards */
+    }
+
+    h1 {
+        margin-bottom: 20px; /* Add margin below heading */
+    }
+
+    table {
+        width: 100%; /* Make table width 100% of its container */
+        border-collapse: collapse; /* Collapse borders */
+    }
+
+    th, td {
+        padding: 10px; /* Add padding to table cells */
+        text-align: left; /* Align text to the left */
+        border-bottom: 1px solid #dee2e6; /* Add bottom border */
+    }
+
+    th {
+        background-color: #f2f2f2; /* Set background color for table header */
+    }
+
+    img {
+        max-width: 100px; /* Limit image width */
+        max-height: 80px; /* Limit image height */
+    }
+
+    .btn {
+        text-decoration: none; /* Remove underline from buttons */
+        padding: 5px 10px; /* Add padding to buttons */
+        border: none; /* Remove border */
+        border-radius: 5px; /* Add border radius to buttons */
+        cursor: pointer; /* Change cursor to pointer on hover */
+        transition: background-color 0.3s; /* Smooth transition for background color */
+    }
+
+    .btn:hover {
+        background-color: #007bff; /* Change background color on hover */
+        color: #ffffff; /* Change text color on hover */
+    }
+</style>
+<div style="margin-bottom: 1em; background:url('/static/assets/img/la3.jpg'); height: 50px; width: 100%; background-size: contain;"></div>
+
+<div class="container">
+    <div class="card">
+        <form method="post" enctype="multipart/form-data">
+            <h3>Manage Details</h3>
+            {% if data['upds'] %}
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="inputfname">Price</label>
+                    <input type="number" placeholder="Enter Price" name="price" value="{{data['upds'][0]['details_amount']}}" class="form-control" required>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="inputmname">Title</label>
+                    <input type="text" placeholder="Enter Title" name="name" value="{{data['upds'][0]['details_name']}}" class="form-control" required>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="inputlname">Start Date</label>
+                    <input type="date" placeholder="Enter Start Date" name="startdate" value="{{data['upds'][0]['start_date']}}" class="form-control">
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="inputphone">End Date</label>
+                    <input type="date" placeholder="Enter End Date" name="enddate" value="{{data['upds'][0]['end_date']}}" class="form-control" required>
+                </div>
+            </div>
+            <div class="form-group col-md-6">
+                <input type="submit" name="update" value="Update" class="btn btn-success">
+            </div>
+            {% else %}
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="inputemail">Category</label>
+                    <select name="category" id="category" class="form-control" onchange="loadTags(this.value)">
+                        {% for i in data['category'] %}
+                        <option value="{{i['category_id']}}">{{i['category_name']}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="inputfname">Title</label>
+                    <input type="text" placeholder="Enter Item Name" name="names" value="" class="form-control" required>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="inputemail">Tag</label>
+                    <select name="tag_name" id="tag" class="form-control">
+                        <!-- Tags will be populated here based on category selection -->
+                    </select>
+                </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="inputfname">Amount</label>
+                    <input type="number" placeholder="Enter Price" name="price" value="" class="form-control" required>
+                </div>
+                
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="inputmname">Start time</label>
+                    <input type="time" placeholder="Enter Time" name="starttime" value="" class="form-control" required>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="inputmname">End time</label>
+                    <input type="time" placeholder="Enter Time" name="endtime" value="" class="form-control" required>
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="inputlname">Start Date</label>
+                    <input type="date" placeholder="Enter Start Date" name="startdate" value="" class="form-control">
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="inputphone">End Date</label>
+                    <input type="date" placeholder="Enter End Date" name="enddate" value="" class="form-control" required>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="inputphone">Type</label>
+                    <input type="text" placeholder="Enter Type" name="types" value="" class="form-control" required>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="inputimage">Image</label>
+                    <input type="file" placeholder="Upload Image" name="image" value="" class="form-control" required>
+                </div>
+            </div>
+            <div class="form-group col-md-6">
+                <input type="submit" name="submit" value="Submit" class="btn btn-success">
+            </div>
+            {% endif %}
+        </form>
+    </div>
+</div>
+
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Manage Items</h5>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Category</th>
+                        <th>Name</th>
+                        <th>Start Date</th>
+                        <th>Start Time</th>
+                        <th>End Date</th>
+                        <th>End Time</th>
+                        <th>Type</th>
+                        <th>Amount</th>
+                        <th>Image</th>
+                        <th>Delete</th>
+                        <th>Edit</th>
+                        <th>activation</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for i in data['view'] %}
+                    <tr>
+                        <td>{{ i['category_name'] }}</td>
+                        <td>{{ i['details_name'] }}</td>
+                        <td>{{ i['start_date'] }}</td>
+                        <td>{{ i['start_time'] }}</td>
+                        <td>{{ i['end_date'] }}</td>
+                        <td>{{ i['end_time'] }}</td>
+                        <td>{{ i['details_type'] }}</td>
+                        <td>{{ i['details_amount'] }}</td>
+                        <td><img src="{{ url_for('static', filename='images/' ~ i['image_name']) }}" alt="{{ i['details_name'] }}"></td>
+                        <td><a href="{{ url_for('admin.admin_manage_iteam', action='delete', p_id=i['details_id']) }}" class="btn btn-danger">Delete</a></td>
+                        <td><a href="{{ url_for('admin.admin_manage_iteam', action='update', p_id=i['details_id']) }}" class="btn btn-info">Edit</a></td>
+                        <td><a href="{{ url_for('admin.admin_manage_iteam', action='active', p_id=i['details_id']) }}" class="btn btn-primary">Active</a></td>
+                        <td><a href="{{ url_for('admin.admin_manage_iteam', action='inactivate', p_id=i['details_id']) }}" class="btn btn-danger">Inactivate</a></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% include 'footer.html'%}
+<!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function(){
+    function updateTags() {
+        var categoryId = $('#category').val();
+        $.ajax({
+            url: '/get_tags/',
+            method: 'GET',
+            contentType: 'application/json', // Set the correct content type
+            data: JSON.stringify({ id: categoryId }), // Stringify your data
+            success: function(data) {
+                console.log({data});
+                $('#tag').empty();
+                $.each(data, function(key, value) {
+                    $('#tag').append('<option value="'+ value.tag_id +'">'+ value.tag_name +'</option>');
+                });
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                // Handle the error here
+                console.error("An error occurred:", textStatus);
+                if(jqXHR.status === 404) {
+                    console.error("The requested resource was not found.");
+                    $('#tag').append('<option value="0">No Data</option>'); // Add a default option in case of error
+                } else {
+                    console.error("Another type of error occurred:", errorThrown);
+                }
+            }
+        });
+    }
+
+    // Initial tags update
+    updateTags();
+
+    // Update tags when category changes
+    $('#category').change(function() {
+        updateTags();
+    });
+});
+</script> -->

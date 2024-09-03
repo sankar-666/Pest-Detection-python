@@ -24,6 +24,10 @@
             <td>{{ row['phone'] }}</td>
             <td>{{ row['gender'] }}</td>
             <td>{{ row['dob'] }}</td>
+            {% if row['usertype']=="pending"  %}
+            <td><a class="btn btn-success" href="?action=accept&login_id={{ row['login_id'] }}">accept</a></td>
+            <td><a class="btn btn-danger" href="?action=reject&login_id={{ row['login_id'] }}">reject</a></td>
+            {% endif %}
 
         </tr>
         {% endfor %}
@@ -31,3 +35,4 @@
 </center>
 
 {% include 'footer.html' %}
+

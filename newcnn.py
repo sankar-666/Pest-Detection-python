@@ -63,8 +63,6 @@ def read_dataset1(path):
     return (np.asarray(data_list, dtype=np.float32))
 
 def predictcnn():
-    # captures()
-    # fn="static/newimg.jpg"
     K.clear_session()
 
     fn="static/prediction/test.png"
@@ -73,19 +71,15 @@ def predictcnn():
 
     dataset = dataset.reshape(dataset.shape[0], mnist_row, mnist_col, mnist_color)
     mo = load_model("model1.h5")
-    dataset /= 255
+    if mo is not None:
+        dataset /= 255
+        yhat_classes = mo.predict_classes(dataset, verbose=0)
+        K.clear_session()
+        return yhat_classes[0]
+    else:
+        print("Error: Model could not be loaded.")
 
-    # predict probabilities for test set
 
-    yhat_classes = mo.predict_classes(dataset, verbose=0)
-    # print(yhat_classes)
-    K.clear_session()
-
-    return yhat_classes[0]
-
-#
-#     print(yhat_classes)
-
-# s=predictcnn()
-# print(s)
+s=predictcnn()
+print(s)
 

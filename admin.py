@@ -1,6 +1,10 @@
 from flask import *
 from database import *
 
+import smtplib
+from email.mime.text import MIMEText
+from flask_mail import Mail
+
 
 admin=Blueprint('admin',__name__)
 
@@ -8,11 +12,98 @@ admin=Blueprint('admin',__name__)
 def adminhome():
     return render_template('adminhome.html')
 
-@admin.route('/adminviewfarmers')
+@admin.route('/adminviewfarmers') 
 def adminviewfarmers():
     data={}
-    q="select * from farmer"
+    q="select * from farmer inner join login using(login_id)"
     data['res']=select(q)
+
+
+    if 'action' in request.args:
+        action=request.args['action']
+        login_id=request.args['login_id'] 
+    else:
+        action=None
+
+        
+    if action == "accept":
+        q="update login set usertype='farmer' where login_id='%s'"%(login_id)
+        update(q)
+        q="select * from farmer where login_id='%s'"%(login_id)
+        email=select(q)[0]['email']
+        pwd="Your Registration request has been Accepted, you can Now Login with your Username and Password"
+
+        try:
+            gmail = smtplib.SMTP('smtp.gmail.com', 587)
+            gmail.ehlo()
+            gmail.starttls()
+            # TO DO 
+            gmail.login('frommail@gmail.com','your_password')
+        except Exception as e:
+            print("Couldn't setup email!!"+str(e))
+
+        pwd = MIMEText(pwd)
+
+        pwd['Subject'] = 'Approval Request'
+
+        pwd['To'] = email
+
+        pwd['From'] = 'frommail@gmail.com'
+
+        try:
+            gmail.send_message(pwd)
+
+            flash("Accepted Successfully")
+            
+
+
+        except Exception as e:
+            print("COULDN'T SEND EMAIL", str(e))
+        else:
+            flash("INVALID DETAILS")
+        # flash("Accepted Successfully")
+        return redirect(url_for("admin.adminviewfarmers"))
+    
+    if action == "reject":
+        q="update login set usertype='reject' where login_id='%s' "%(login_id)
+        update(q)
+        q="select * from farmer where login_id='%s'"%(login_id)
+        email=select(q)[0]['email']
+        pwd="Your Registration request has been Rejected/"
+
+        try:
+            gmail = smtplib.SMTP('smtp.gmail.com', 587)
+            gmail.ehlo()
+            gmail.starttls()
+            # TO DO 
+            gmail.login('frommail@gmail.com','your pass')
+        except Exception as e:
+            print("Couldn't setup email!!"+str(e))
+
+        pwd = MIMEText(pwd)
+
+        pwd['Subject'] = 'Approval Request'
+
+        pwd['To'] = email
+
+        pwd['From'] = 'frommail@gmail.com'
+
+        try:
+            gmail.send_message(pwd)
+
+            flash("Accepted Successfully")
+            
+
+
+        except Exception as e:
+            print("COULDN'T SEND EMAIL", str(e))
+        else:
+            flash("INVALID DETAILS")
+        flash("rejected Successfully")
+        return redirect(url_for("admin.adminviewfarmers"))
+    
+    
+
     return render_template('adminviewfarmers.html',data=data)
 
 
@@ -27,7 +118,7 @@ def adminviewcustomers():
 @admin.route('/adminviewmarketitems')
 def adminviewmarketitems():
     data={}
-    q="select * from item"
+    q="select * from item inner join farmer using (farmer_id)"
     data['res']=select(q)
     return render_template('adminviewmarketitems.html',data=data)
 
@@ -135,9 +226,12 @@ def admin_manage_pest():
     if 'btn' in request.form:
         pest=request.form['pest']
         details=request.form['details']
-        
+        image=request.files['image']
+        path="static/uploads/"+str(uuid.uuid4())+image.filename
+        image.save(path)
     
-        q="insert into pest values (null,'%s','%s')"%(pest,details)
+    
+        q="insert into pest values (null,'%s','%s','%s')"%(pest,details,path)
         insert(q)
         flash("Successfully Added")
         return redirect(url_for("admin.admin_manage_pest"))
@@ -162,8 +256,15 @@ def admin_manage_pest():
         if 'update' in request.form:
             pest=request.form['pest']
             details=request.form['details']
+            if request.files['image']:
+                image=request.files['image']
+                path="static/uploads/"+str(uuid.uuid4())+image.filename
+                image.save(path)
 
-            q="update pest set pest='%s', details='%s' where pest_id='%s' "%(pest,details,pid)
+                q="update pest set pest='%s', details='%s', image='%s' where pest_id='%s' "%(pest,details,path,pid)
+            else:
+                q="update pest set pest='%s', details='%s' where pest_id='%s' "%(pest,details,pid)
+
             update(q)
             flash("Updated Successfully")
             return redirect(url_for("admin.admin_manage_pest"))
@@ -242,7 +343,7 @@ def admin_manage_harmfullpest():
         return redirect(url_for("admin.admin_manage_harmfullpest"))
 
 
-    q="select * from harmfull, crops, pest where harmfull.crop_id=crops.crop_id and harmfull.pest_id=pest.pest_id "
+    q="select *,harmfull.details as details from harmfull, crops, pest where harmfull.crop_id=crops.crop_id and harmfull.pest_id=pest.pest_id "
     data['res']=select(q)
     data['count']=len(select(q))
 
@@ -266,16 +367,21 @@ def admin_manage_harmfullpest():
 @admin.route('/admin_manage_pesticide',methods=['get','post'])
 def admin_manage_pesticide():
     data={}
-    q='select * from pest inner join harmfull using (pest_id) group by pest_id'
+    q='select * from pest inner join harmfull using (pest_id)'
     data['harm']=select(q)    
     
     if 'btn' in request.form:
         hm_id=request.form['hm_id']
         pest=request.form['pest']
         amount=request.form['amount']
+        img=request.files['img']
+        path='static/'+str(uuid.uuid4())+img.filename
+        img.save(path)
+        
+        print("..................",hm_id)
         
     
-        q="insert into pesticide values (null,'%s','%s','%s')"%(hm_id,pest,amount)
+        q="insert into pesticide values (null,'%s','%s','%s','%s')"%(hm_id,pest,amount,path)
         insert(q)
         flash("Successfully Added")
         return redirect(url_for("admin.admin_manage_pesticide"))
@@ -297,6 +403,27 @@ def admin_manage_pesticide():
         q="delete from pesticide where pesticide_id='%s' "%(pid)
         delete(q)
         flash("Deleted Successfully")
+        return redirect(url_for("admin.admin_manage_pesticide"))
+
+    if action == "update":
+        q="select * from pesticide where pesticide_id='%s'"%(pid)
+        val=select(q)
+        data['raw']=val
+
+    if 'update' in request.form:
+        pest=request.form['pest']
+        amount=request.form['amount']
+        if request.files['img']:
+            image=request.files['image']
+            path="static/uploads/"+str(uuid.uuid4())+image.filename
+            image.save(path)
+
+            q="update pesticide set pesticide='%s', amount='%s', image='%s' where pesticide_id='%s' "%(pest,amount,path,pid)
+        else:
+            q="update pesticide set pesticide='%s', amount='%s' where pesticide_id='%s' "%(pest,amount,pid)
+
+        update(q)
+        flash("Updated Successfully")
         return redirect(url_for("admin.admin_manage_pesticide"))
     return render_template('admin_manage_pesticide.html',data=data) 
 
@@ -400,3 +527,22 @@ def admin_view_payment():
     q="select * from payment where ordermaster_id='%s' and type='pesticide'"%(pmid)
     data['res']=select(q)
     return render_template('admin_view_payment.html',data=data)
+
+
+
+
+
+@app.route('/get_tags/', methods=['GET'])
+def get_tags():
+    # Assuming you have a function to fetch tags based on the category ID
+    # For demonstration, let's simulate fetching tags
+    category_id = request.json.get('id')
+    q = "select * from `tag` where category_id='%s'"%(category_id)
+    tags = select(q)
+
+    # Return the tags as JSON
+    return jsonify(tags)
+
+
+
+

@@ -15,6 +15,7 @@
             <td>{{ loop.index }}</td>
             <td>Pest <span style="margin: 0px 5px;color: red;">{{ row['pest'] }}</span> is dangerous for {{ row['crop'] }}</td>
             <td>{{ row['details'] }}</td>
+            <!-- <td>{{ row['harmfull_id'] }}</td> -->
             <td><a class="btn btn-danger" href="customer_view_pesticides?hid={{ row['harmfull_id'] }}&pest={{ row['pest'] }}">View Pesticide</a></td>
   
 

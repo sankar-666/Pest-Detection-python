@@ -2,9 +2,34 @@
 <center>
     <div class="img-div">
 
-    
+    {% if data['raw'] %}
     <h1 class="hd">Manage pesticides</h1>
-    <form action="" class="form" method="post">
+    <form action="" class="form" method="post" enctype="multipart/form-data">
+        <table class="table form-group">
+            <tr>
+                <th> pesticide</th>
+                <td><input type="text" class="form-control" name="pest"></td>
+            </tr>
+            <tr>
+                <th>Amount</th>
+                <td><input type="number" class="form-control" name="amount"></td>
+            </tr>
+            <tr>
+                <th>Image</th> 
+                <td><img src="/{{ data['raw'][0]['image'] }}" style="width: 70px;height: 70px;border-radius: 10px;" alt=""></td>
+            </tr>
+            <tr>
+                <th></th>
+                <th><input type="file" name="img" class="form-control" id=""></th>
+            </tr>
+            <tr>
+                <td colspan="2" align="center"><input type="submit" class="btn btn-success" name="btn" id=""></td>
+            </tr>
+            </table>
+            </form>
+    {% else %}
+    <h1 class="hd">Manage pesticides</h1>
+    <form action="" class="form" method="post" enctype="multipart/form-data">
         <table class="table form-group">
             <tr>
                 <th>Select Harmfull pest</th>
@@ -23,10 +48,16 @@
                 <td><input type="number" class="form-control" name="amount"></td>
             </tr>
             <tr>
+                <th>File</th>
+                <td><input type="file" required class="form-control" name="img"></td>
+            </tr>
+            <tr>
                 <td colspan="2" align="center"><input type="submit" class="btn btn-success" name="btn" id=""></td>
             </tr>
             </table>
             </form>
+    {% endif %}
+    
 
 
 </div>
@@ -39,6 +70,7 @@
             <th>pest</th>
             <th>Pesticide</th>
             <th>Amount</th>
+            <th>Image</th>
             <th></th>
         
             
@@ -49,6 +81,7 @@
             <td>{{ row['pest'] }}</td>
             <td>{{ row['pesticide'] }}</td>
             <td>{{ row['amount'] }}</td>
+            <td><img src="/{{ row['image'] }}" alt="" height="100" width="100"></td>
             
            
              <td><a class="btn btn-danger" onclick="return confirm('Are You Sure!')" href="?action=delete&pid={{ row['pesticide_id'] }}">Delete</a></td>
